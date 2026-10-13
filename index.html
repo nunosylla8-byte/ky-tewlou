@@ -3,6 +3,7 @@
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="icon" type="image/png" href="/icon-192.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:title" content="KY TEWLOU"><meta property="og:description" content="Lire, apprendre et répéter les khassaïdes de Serigne Touba"><meta property="og:type" content="website"><meta property="og:image" content="/icon-512.png"><meta name="twitter:card" content="summary">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="KY TEWLOU">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Source+Sans+3:wght@400;600;700&display=swap">
@@ -42,7 +43,7 @@ textarea.code{font-family:ui-monospace,monospace;font-size:.82rem;min-height:120
 @media print{header,nav,#panel,button,.noprint,a.btn,input,select{display:none!important}.pr{display:flex;gap:1rem;align-items:center;border-bottom:3px solid #B8892B;margin-bottom:1rem}body{background:#fff;color:#000}.card{break-inside:avoid}}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.7rem;margin-bottom:1rem}.stat{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:6px;padding:.7rem 1rem}.stat b{font:700 1.9rem Amiri,serif;color:var(--g);display:block}.stat span{color:var(--mut);font-size:.9rem}nav:empty{display:none}@media(min-width:1000px){nav:empty+main{margin-left:0}nav:empty+main #fm,nav:empty+main #main{margin:0 auto}}
 </style></head><body>
-<header><div class="row" id="hd"></div><div class="row" style="flex:none"><button class="sm" onclick="tsize()" aria-label="Agrandir le texte">A+</button><button class="sm" id="lo" onclick="signOut()" hidden>Sortir</button><button class="sm" onclick="theme()" aria-label="Changer de thème">Thème</button></div></header>
+<header><div class="row" id="hd"></div><div class="row" style="flex:none"><button class="sm" id="ins" onclick="installApp()" hidden>Installer</button><button class="sm" id="lo" onclick="signOut()" hidden>Sortir</button><button class="sm" onclick="theme()" aria-label="Changer de thème">Thème</button></div></header>
 <nav id="nav"></nav><main><div id="fm" role="status"></div><div id="main"></div></main><div id="pdfp" hidden></div><div id="panel" hidden></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
@@ -57,8 +58,6 @@ const DEF={k:[],a:[],p:[],d:[],s:[]};let S={...DEF},UID='local';
 function loadS(){try{S=JSON.parse(localStorage.getItem('kyt_'+UID)||'null')||{...DEF}}catch(e){S={...DEF}}S={...DEF,...S}}
 let _t;const save=()=>{try{localStorage.setItem('kyt_'+UID,JSON.stringify(S))}catch(e){flash('Enregistrement impossible : espace de stockage plein ou bloqué.')}clearTimeout(_t);_t=setTimeout(syncStats,3000)};
 try{const t=localStorage.getItem('kyt-th');if(t)document.documentElement.dataset.theme=t}catch(e){}
-function tsize(){const c=['100%','115%','130%'];let i=c.indexOf(document.documentElement.style.getPropertyValue('--fs')||'100%');i=(i+1)%3;document.documentElement.style.setProperty('--fs',c[i]);try{localStorage.setItem('kyt-fs',c[i])}catch(e){}}
-try{const f=localStorage.getItem('kyt-fs');if(f)document.documentElement.style.setProperty('--fs',f)}catch(e){}
 function theme(){const r=document.documentElement,dk=r.dataset.theme?r.dataset.theme=='dark':matchMedia('(prefers-color-scheme:dark)').matches;r.dataset.theme=dk?'light':'dark';try{localStorage.setItem('kyt-th',r.dataset.theme)}catch(e){}}
 // fichiers (IndexedDB)
 let DBP=null;function openDB(){DBP=new Promise(r=>{try{const q=indexedDB.open('kyt-'+UID,1);q.onupgradeneeded=()=>q.result.createObjectStore('f');q.onsuccess=()=>r(q.result);q.onerror=()=>r(null)}catch(e){r(null)}})}
@@ -80,9 +79,11 @@ function render(){
  $('#hd').innerHTML=logoImg()+'<b>KY TEWLOU</b>';
  $('#nav').innerHTML=(IS_ADM?ANAVS:NAVS).map(n=>`<button class="${V==n[0]||(V=='pform'||V=='pdet'||V=='recap')&&n[0]=='prog'?'on':''}" onclick="go('${n[0]}')" aria-label="${n[1]}"><span class="ic" aria-hidden="true">${n[2]}</span><span class="lg">${n[1]}</span><span class="sh">${n[3]}</span></button>`).join('');
  $('#fm').innerHTML=MSG?`<div class="note" role="status">${esc(MSG)}</div>`:'';MSG='';
- $('#main').innerHTML=({home:vHome,lib:vLib,airs:vAirs,prog:vProg,pform:vForm,recap:vRecap,pdet:vDet,dah:vDah,set:vSet,adm:vAdm,usr:vUsr}[V])();
+ $('#main').innerHTML=({home:vHome,lib:vLib,airs:vAirs,prog:vProg,pform:vForm,recap:vRecap,pdet:vDet,dah:vDah,set:vSet,adm:vAdm,usr:vUsr,cat:vCat}[V])();
  if(V=='pform')afterForm();
  if(IS_ADM&&!ADM.loaded)loadAdm();
+ if(IS_ADM&&V=='cat'&&!CAT.loaded)loadCat();
+ updInstall();
 }
 const empty=(t,b)=>`<div class="empty">${t}${b?'<br><br>'+b:''}</div>`;
 function panel(h){const p=$('#panel');p.hidden=false;p.innerHTML=h;layoutPdf()}
@@ -91,7 +92,7 @@ try{new ResizeObserver(layoutPdf).observe($('#panel'))}catch(e){}addEventListene
 // ---------- ACCUEIL
 function allSched(){return S.p.filter(p=>p.status=='active').flatMap(p=>p.sched.map(e=>({...e,pid:p.id,pn:p.name})))}
 function prog(p){return p.sched.length?Math.round(p.sched.filter(e=>isDone(e.id)).length/p.sched.length*100):0}
-const START=`<div class="card"><h2>Pour commencer</h2><div class="row" style="align-items:stretch"><div class="grow"><span class="num">1</span><br><b>Ajoutez un khassaïde</b><br><span class="mut">Importez son PDF dans la bibliothèque.</span><br><button class="sm" style="margin-top:.5rem" onclick="go('lib')">Ouvrir la bibliothèque</button></div><div class="grow"><span class="num">2</span><br><b>Ajoutez son air</b><br><span class="mut">Audio, vidéo ou lien YouTube.</span><br><button class="sm" style="margin-top:.5rem" onclick="go('airs')">Ajouter un air</button></div><div class="grow"><span class="num">3</span><br><b>Créez un programme</b><br><span class="mut">Choisissez les khassaïdes et les dates.</span><br><button class="sm" style="margin-top:.5rem" onclick="newProg()">Créer un programme</button></div></div><p class="mut" style="margin-bottom:0">Vos données restent privées : elles sont enregistrées sur votre appareil. Le bouton A+ agrandit le texte.</p></div>`;
+const START=`<div class="card"><h2>Pour commencer</h2><div class="row" style="align-items:stretch"><div class="grow"><span class="num">1</span><br><b>Ajoutez un khassaïde</b><br><span class="mut">Importez son PDF dans la bibliothèque.</span><br><button class="sm" style="margin-top:.5rem" onclick="go('lib')">Ouvrir la bibliothèque</button></div><div class="grow"><span class="num">2</span><br><b>Ajoutez son air</b><br><span class="mut">Audio, vidéo ou lien YouTube.</span><br><button class="sm" style="margin-top:.5rem" onclick="go('airs')">Ajouter un air</button></div><div class="grow"><span class="num">3</span><br><b>Créez un programme</b><br><span class="mut">Choisissez les khassaïdes et les dates.</span><br><button class="sm" style="margin-top:.5rem" onclick="newProg()">Créer un programme</button></div></div><p class="mut" style="margin-bottom:0">Vos données restent privées : elles sont enregistrées sur votre appareil.</p></div>`;
 function vHome(){const td=allSched().filter(e=>e.date==today());
  return `<div class="card row">${logoImg('logo')}<div><h1 style="margin:0">Bienvenue sur KY TEWLOU</h1><span class="mut">Lire, apprendre et répéter les khassaïdes de Serigne Touba.</span></div></div>
  ${(!S.k.length&&!S.p.length)?START:''}<h2>À réciter aujourd'hui</h2>${td.length?td.map(rowE).join(''):empty('Rien de prévu aujourd\'hui.',S.k.length?`<button onclick="newProg()">Créer un programme</button>`:`<button onclick="go('lib')">Ajouter un premier khassaïde</button>`)}`}
@@ -113,15 +114,15 @@ async function saveK(){try{const n=$('#kn').value.trim();if(!n)return flash('Sai
 function listK(){const q=norm(Q),l=S.k.filter(k=>!q||norm(k.name+' '+k.aliases.join(' ')).includes(q));
  if(!S.k.length)return empty('La bibliothèque est vide.','Cliquez sur « Ajouter un khassaïde PDF » pour commencer.');if(!l.length)return empty('Aucun résultat pour « '+esc(Q)+' ».');
  return l.map(k=>`<div class="card"><div class="row sp"><div class="grow"><h3>${esc(k.name)}</h3><span class="badge ${k.status=='published'?'':'w'}">${k.status=='published'?'Publié':'Brouillon'}</span> <span class="mut">${airsOf(k.id).length} air(s) · ajouté le ${fmt(k.added)}</span>${k.desc?`<p>${esc(k.desc)}</p>`:''}</div>
- <div class="row">${k.pdf?`<button class="sm" onclick="openPdf('${k.id}')">Lire le PDF</button>`:'<span class="badge w">Pas de PDF</span>'}<button class="sm sec" onclick="ED='${k.id}';render();scrollTo(0,0)">Modifier</button><button class="sm bad" onclick="delK('${k.id}')">Supprimer</button></div></div></div>`).join('')}
+ <div class="row">${k.pdf?`<button class="sm" onclick="openPdf('${k.id}')">Lire le PDF</button>`:'<span class="badge w">Pas de PDF</span>'}${k.cat?'<span class="badge">Officiel · hors ligne</span>':`<button class="sm sec" onclick="ED='${k.id}';render();scrollTo(0,0)">Modifier</button><button class="sm bad" onclick="delK('${k.id}')">Supprimer</button>`}</div></div></div>`).join('')}
 function vLib(){return `<div class="row sp"><h1>Bibliothèque des khassaïdes</h1>${ED||SHOW?'':`<button onclick="SHOW=true;render()">Ajouter un khassaïde PDF</button>`}</div>${ED||SHOW?kform():''}
- <label for="q">Rechercher par nom</label><input id="q" value="${esc(Q)}" oninput="Q=this.value;$('#list').innerHTML=listK()" placeholder="Nom du khassaïde"><div id="list" style="margin-top:.8rem">${listK()}</div>`}
+ ${SB&&!IS_ADM?`<div class="row noprint" style="margin-bottom:.6rem"><button class="sm sec" onclick="syncCatalog(true)">Mettre à jour le contenu hors ligne</button></div>`:''}<label for="q">Rechercher par nom</label><input id="q" value="${esc(Q)}" oninput="Q=this.value;$('#list').innerHTML=listK()" placeholder="Nom du khassaïde"><div id="list" style="margin-top:.8rem">${listK()}</div>`}
 let PU='';
 function layoutPdf(){const f=$('#pdfp');if(!f||f.hidden)return;const p=$('#panel'),mob=matchMedia('(max-width:699px)').matches;f.style.bottom=((mob?58:0)+(p.hidden?0:p.offsetHeight))+'px'}
 function closePdf(){const f=$('#pdfp');if(!f)return;f.hidden=true;f.innerHTML='';if(PU)URL.revokeObjectURL(PU);PU='';layoutPdf()}
 async function openPdf(id){try{const k=K(id),b=await fget(k.pdf);if(!b)return flash('Fichier PDF introuvable.');closePdf();PU=URL.createObjectURL(new Blob([b],{type:'application/pdf'}));const f=$('#pdfp');f.hidden=false;
  f.innerHTML=`<div class="row sp"><b>${esc(k.name)}</b><span class="row"><a class="btn sm sec" href="${PU}" target="_blank" rel="noopener">Ouvrir dans un onglet</a><a class="btn sm sec" href="${PU}" download="${esc(k.pdfName||k.name+'.pdf')}">Télécharger</a><button class="sm" onclick="closePdf()">Fermer</button></span></div><iframe src="${PU}" title="PDF"></iframe>`;layoutPdf()}catch(e){flash(e.message)}}
-async function delK(id){if(!confirm('Supprimer ce khassaïde, son PDF et ses airs ? Il sera retiré des programmes.'))return;const k=K(id);await fdel(k.pdf);for(const a of airsOf(id))await delAirFiles(a);
+async function delK(id){if(K(id)&&K(id).cat)return flash('Contenu officiel : il ne peut pas être supprimé.');if(!confirm('Supprimer ce khassaïde, son PDF et ses airs ? Il sera retiré des programmes.'))return;const k=K(id);await fdel(k.pdf);for(const a of airsOf(id))await delAirFiles(a);
  S.a=S.a.filter(a=>a.kid!=id);S.k=S.k.filter(x=>x.id!=id);S.p.forEach(p=>{p.items=p.items.filter(i=>i.kid!=id);p.sched=p.sched.filter(e=>e.kid!=id)});save();MSG='Khassaïde supprimé.';render()}
 // ---------- AIRS
 const delAirFiles=async a=>{await fdel(a.audio);await fdel(a.video)};
@@ -133,7 +134,7 @@ function vAirs(){const a=AE?A(AE):{};const kn=AE?KN(a.kid):AK;
  <div><label for="aau">Fichier audio ${a.audio?'(vide = conserver)':''}</label><input type="file" id="aau" accept="audio/*"></div><div><label for="avf">Fichier vidéo ${a.video?'(vide = conserver)':''}</label><input type="file" id="avf" accept="video/*"></div></div>
  <label for="ayt">Lien YouTube</label><input id="ayt" value="${esc(a.yt)}" placeholder="https://www.youtube.com/watch?v=..."><label for="ar">Nom du récitant (facultatif)</label><input id="ar" value="${esc(a.reciter)}"><label for="ad">Description (facultatif)</label><textarea id="ad" rows="2">${esc(a.desc)}</textarea>
  <div class="row" style="margin-top:.8rem"><button onclick="saveAir(false)">Enregistrer</button>${AE?'':'<button class="sec" onclick="saveAir(true)">Enregistrer et ajouter un autre air</button>'}<button class="sec" onclick="prevForm()">Prévisualiser</button><button class="sec" onclick="AE=null;AK='';render()">Annuler</button></div></div>`;
- const list=S.k.filter(k=>airsOf(k.id).length).map(k=>`<div class="card"><h3>${esc(k.name)}</h3>${airsOf(k.id).map(a=>`<div class="row sp" style="margin-bottom:.4rem"><span><b>${esc(a.name)}</b> <span class="badge">${{video:'Vidéo',audio:'Audio',both:'Audio + vidéo'}[a.type]}</span> <span class="mut">${esc(a.reciter||'')}</span></span><span class="row"><button class="sm" onclick="playAir('${a.id}')">Prévisualiser</button><button class="sm sec" onclick="chk('${a.id}')">Vérifier</button><button class="sm sec" onclick="AE='${a.id}';render();scrollTo(0,0)">Modifier</button><button class="sm bad" onclick="delAir('${a.id}')">Supprimer</button></span></div>`).join('')}</div>`).join('');
+ const list=S.k.filter(k=>airsOf(k.id).length).map(k=>`<div class="card"><h3>${esc(k.name)}</h3>${airsOf(k.id).map(a=>`<div class="row sp" style="margin-bottom:.4rem"><span><b>${esc(a.name)}</b> <span class="badge">${{video:'Vidéo',audio:'Audio',both:'Audio + vidéo'}[a.type]}</span> <span class="mut">${esc(a.reciter||'')}</span></span><span class="row"><button class="sm" onclick="playAir('${a.id}')">Prévisualiser</button><button class="sm sec" onclick="chk('${a.id}')">Vérifier</button>${a.cat?'':`<button class="sm sec" onclick="AE='${a.id}';render();scrollTo(0,0)">Modifier</button><button class="sm bad" onclick="delAir('${a.id}')">Supprimer</button>`}</span></div>`).join('')}</div>`).join('');
  return `<h1>Gestion des airs</h1>${form}<h2>Airs enregistrés</h2>${list||empty('Aucun air enregistré.','Utilisez le formulaire ci-dessus : le khassaïde et son air apparaîtront ensuite dans la bibliothèque et dans les programmes.')}`}
 function kinfo(){const k=S.k.find(x=>norm(x.name)==norm($('#akn').value));$('#ki').textContent=k?`Khassaïde existant : l'air sera ajouté à cette fiche (${k.pdf?'PDF déjà associé':'pas encore de PDF'}).`:($('#akn').value?'Nouveau khassaïde : une fiche sera créée.':'')}
 async function saveAir(another){try{const kn=$('#akn').value.trim(),an=$('#an').value.trim(),ty=$('#at').value,yt=$('#ayt').value.trim(),au=$('#aau').files[0],vf=$('#avf').files[0];const old=AE?A(AE):{};
@@ -144,12 +145,13 @@ async function saveAir(another){try{const kn=$('#akn').value.trim(),an=$('#an').
  let k=AE?K(old.kid):S.k.find(x=>norm(x.name)==norm(kn)),pf=$('#akf').files[0];
  if(pf&&!/pdf$/i.test(pf.name)&&pf.type!='application/pdf')return flash('Le fichier du khassaïde doit être un PDF.');
  if(!k){k={id:uid(),name:kn,aliases:[],desc:'',status:'published',added:today()};S.k.push(k)}
+ if(pf&&k.cat)return flash('Le PDF d\'un khassaïde officiel ne peut pas être remplacé.');
  if(pf){await fdel(k.pdf);k.pdf=await store(pf);k.pdfName=pf.name}
  const a=AE?old:{id:uid(),kid:k.id};if(!AE)S.a.push(a);
  if(au){await fdel(a.audio);a.audio=await store(au)}if(vf){await fdel(a.video);a.video=await store(vf)}
  Object.assign(a,{name:an,type:ty,yt,reciter:$('#ar').value.trim(),desc:$('#ad').value.trim()});if(ty=='audio'){a.yt='';await fdel(a.video);a.video=null}
  save();AK=another?k.name:'';AE=null;MSG=another?`Air « ${an} » enregistré. Ajoutez le suivant pour « ${k.name} ».`:'Khassaïde et air enregistrés.';render()}catch(e){flash(e.message||'Échec de l\'enregistrement.')}}
-async function delAir(id){if(!confirm('Supprimer cet air ?'))return;const a=A(id);await delAirFiles(a);S.a=S.a.filter(x=>x.id!=id);S.p.forEach(p=>p.items.forEach(i=>{if(i.aid==id)i.aid=''}));save();MSG='Air supprimé.';render()}
+async function delAir(id){if(A(id)&&A(id).cat)return flash('Contenu officiel : il ne peut pas être supprimé.');if(!confirm('Supprimer cet air ?'))return;const a=A(id);await delAirFiles(a);S.a=S.a.filter(x=>x.id!=id);S.p.forEach(p=>p.items.forEach(i=>{if(i.aid==id)i.aid=''}));save();MSG='Air supprimé.';render()}
 async function chk(id){const a=A(id);const r=[];try{if(a.yt)r.push(ytId(a.yt)?'Lien YouTube : format valide (disponibilité à confirmer en lecture)':'Lien YouTube : invalide');
  if(a.audio)r.push(await fget(a.audio)?'Audio : fichier présent':'Audio : fichier introuvable');if(a.video)r.push(await fget(a.video)?'Vidéo : fichier présent':'Vidéo : fichier introuvable')}catch(e){r.push(e.message)}MSG=a.name+' → '+r.join(' · ');render()}
 // lecteur
@@ -251,7 +253,7 @@ async function loadLogo(){try{const {data}=await SB.from('app_settings').select(
 const CFG={url:'https://alpcjvxzvtiygzlobvan.supabase.co',key:'sb_publishable_Ob0KRXAb9mno0hoBKqJIlQ_2F_ktcvO'};
 const CONF=!/COLLE_ICI/.test(CFG.url+CFG.key)&&!!window.supabase;
 const GUEST=()=>{try{return localStorage.getItem('kyt-guest')=='1'}catch(e){return false}};
-const ANAVS=[['adm','Tableau de bord','📊','Tableau'],['usr','Utilisateurs','👥','Utilisateurs'],['set','Réglages','⚙️','Réglages']];
+const ANAVS=[['adm','Tableau de bord','📊','Tableau'],['usr','Utilisateurs','👥','Utilisateurs'],['cat','Contenu','📖','Contenu'],['set','Réglages','⚙️','Réglages']];
 const ADMIN_PATH=/^\/administrateur\/?$/i.test(location.pathname);
 let AUTHED=false,IS_ADM=false,SB=null,ATAB=ADMIN_PATH?'admin':'user',AMODE='in',MF=null,ADM={loaded:false},UQ='',APER='jour';
 const amsg=(t,ok)=>{const e=$('#am');if(e){e.className='note'+(ok?'':' err');e.textContent=t;e.hidden=!t}};
@@ -260,18 +262,23 @@ async function boot(){
   if(/type=recovery/.test(location.hash)){AMODE='reset'}
   else{try{const {data}=await SB.auth.getSession();if(data.session)await afterLogin(data.session.user)}catch(e){}}
   loadLogo()}
+ if(!AUTHED&&!ADMIN_PATH&&AMODE!='reset'&&!navigator.onLine){let lu=null;try{lu=localStorage.getItem('kyt-lastuser')}catch(e){}if(lu){IS_ADM=false;UID=lu;loadS();openDB();AUTHED=true;V='home'}}
  if(!AUTHED&&!ADMIN_PATH&&AMODE!='reset'&&GUEST())localMode();
  render()}
+const cacheProf=(id,p)=>{try{localStorage.setItem('kyt-prof-'+id,JSON.stringify(p))}catch(e){}},cachedProf=id=>{try{return JSON.parse(localStorage.getItem('kyt-prof-'+id)||'null')}catch(e){return null}};
 async function afterLogin(user){
- const {data:p,error}=await SB.from('profiles').select('role,suspended').eq('id',user.id).maybeSingle();
- if(error||!p){await SB.auth.signOut();return "Profil introuvable. Contactez l'administrateur."}
+ let p=null,error=null;
+ try{const r=await SB.from('profiles').select('role,suspended').eq('id',user.id).maybeSingle();p=r.data;error=r.error}catch(e){error=e}
+ if(error){const c=cachedProf(user.id);if(c&&!ADMIN_PATH&&c.role!='admin'&&!c.suspended&&(!navigator.onLine||!error.code)){p=c;error=null}}
+ else if(p)cacheProf(user.id,p);
+ if(error||!p){if(navigator.onLine&&!(error&&!error.code)){await SB.auth.signOut()}return "Profil introuvable. Contactez l'administrateur."}
  if(p.suspended){await SB.auth.signOut();return 'Ce compte est suspendu.'}
  if(p.role=='admin'&&!ADMIN_PATH){await SB.auth.signOut();return 'Adresse e-mail ou mot de passe incorrect.'}
  if(p.role=='admin'){const a=await SB.auth.mfa.getAuthenticatorAssuranceLevel();
   if(a.data&&a.data.currentLevel=='aal2'){IS_ADM=true;AUTHED=true;V='adm';ADM={loaded:false};return ''}
   return await mfaStart()}
  if(ADMIN_PATH){await SB.auth.signOut();return "Ce compte n'est pas administrateur."}
- IS_ADM=false;UID=user.id;try{localStorage.removeItem('kyt-guest')}catch(e){}loadS();openDB();AUTHED=true;V='home';syncStats();return ''}
+ IS_ADM=false;UID=user.id;try{localStorage.removeItem('kyt-guest');localStorage.setItem('kyt-lastuser',user.id)}catch(e){}loadS();openDB();AUTHED=true;V='home';syncStats();setTimeout(syncCatalog,300);return ''}
 async function mfaStart(){
  const {data,error}=await SB.auth.mfa.listFactors();if(error)return error.message;
  const f=(data.totp||[]).find(x=>x.status=='verified');
@@ -307,9 +314,9 @@ async function doReset(){
  history.replaceState(null,'',location.pathname);AMODE='in';const m=await afterLogin(data.user);render();if(m)amsg(m)}
 async function signOut(){
  try{if(SB)await SB.auth.signOut()}catch(e){}
- try{localStorage.removeItem('kyt-guest')}catch(e){}
+ try{localStorage.removeItem('kyt-guest');localStorage.removeItem('kyt-lastuser')}catch(e){}
  AUTHED=false;IS_ADM=false;UID='local';S={...DEF};AMODE='in';MF=null;ADM={loaded:false};V='home';closeP();closePdf();renderAuth()}
-function localMode(){UID='local';try{localStorage.setItem('kyt-guest','1')}catch(e){}loadS();openDB();AUTHED=true;V='home';render()}
+function localMode(){UID='local';try{localStorage.setItem('kyt-guest','1')}catch(e){}loadS();openDB();AUTHED=true;V='home';render();setTimeout(syncCatalog,300)}
 function mfaHtml(){return `<h2>Code de confirmation</h2>${MF&&MF.enroll?`<p style="text-align:left">Première connexion : scannez ce code avec une application d'authentification (Google Authenticator, Microsoft Authenticator, Authy), puis saisissez le code à 6 chiffres affiché.</p><img id="qr" alt="QR code à scanner" style="width:200px;height:200px;background:#fff"><p class="mut" style="word-break:break-all;font-size:.85rem">Clé manuelle : ${esc(MF.secret)}</p>`:`<p>Saisissez le code à 6 chiffres de votre application d'authentification.</p>`}<input id="mc" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000" aria-label="Code à 6 chiffres" style="text-align:center;font-size:1.4rem;letter-spacing:.3em" onkeydown="if(event.key=='Enter')mfaVerify()"><br><br><button id="ab" style="width:100%;justify-content:center" onclick="mfaVerify()">Valider</button><p><button class="sm sec" onclick="signOut()">Annuler</button></p>`}
 function renderAuth(){
  $('#hd').innerHTML=logoImg()+'<b>KY TEWLOU</b>';$('#nav').innerHTML='';$('#lo').hidden=true;$('#fm').innerHTML='';
@@ -324,7 +331,7 @@ function renderAuth(){
  $('#main').innerHTML=`<div class="card" style="max-width:440px;margin:1rem auto;text-align:center">${logoImg('logo big')}<h1 style="margin-top:.5rem">KY TEWLOU</h1><div id="am" class="note err" role="alert" hidden></div>${body}</div>`;
  if(AMODE=='mfa'&&MF&&MF.qr){const q=$('#qr');if(q)q.src=MF.qr}}
 async function syncStats(){
- if(!SB||!AUTHED||IS_ADM||UID=='local')return;
+ if(!SB||!AUTHED||IS_ADM||UID=='local'||!navigator.onLine)return;
  try{await SB.from('stats').update({n_k:S.k.length,n_a:S.a.length,n_p:S.p.length,n_d:S.d.length,n_s:S.s.filter(x=>x.st=='done').length,last_seen:new Date().toISOString()}).eq('user_id',UID)}catch(e){}}
 // ---------- TABLEAU DE BORD ADMIN
 async function loadAdm(){
@@ -366,6 +373,108 @@ async function toggleSusp(id){
  if(!confirm((u.suspended?'Réactiver':'Suspendre')+' le compte '+u.email+' ?'))return;
  const {error}=await SB.from('profiles').update({suspended:!u.suspended}).eq('id',id);
  if(error)return flash(error.message);u.suspended=!u.suspended;render()}
+
+// ---------- INSTALLATION (logo sur l'écran d'accueil)
+let DIP=null;
+const isStandalone=()=>matchMedia('(display-mode: standalone)').matches||navigator.standalone===true,isIOS=()=>/iphone|ipad|ipod/i.test(navigator.userAgent);
+function updInstall(){const b=$('#ins');if(b)b.hidden=isStandalone()}
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();DIP=e;updInstall()});
+addEventListener('appinstalled',()=>{DIP=null;updInstall()});
+function installApp(){
+ if(DIP){DIP.prompt();DIP.userChoice.finally(()=>{DIP=null;updInstall()});return}
+ alert(isIOS()?'Sur iPhone : touchez le bouton Partager du navigateur, puis « Sur l\'écran d\'accueil ».':'Ouvrez le menu du navigateur (⋮ ou ⋯) puis choisissez « Installer l\'application » ou « Ajouter à l\'écran d\'accueil ».')}
+// ---------- CONTENU OFFICIEL : synchronisation vers l'appareil (hors ligne)
+const BK='catalog',pubUrl=p=>SB.storage.from(BK).getPublicUrl(p).data.publicUrl;
+let SYNCING=false;
+const have=async id=>id?!!(await fget(id).catch(()=>null)):false;
+async function dl(p){const r=await fetch(pubUrl(p));if(!r.ok)throw new Error('Téléchargement impossible');return await r.blob()}
+function snote(t){const f=$('#fm');if(f&&!MSG)f.innerHTML=t?`<div class="note" role="status">${esc(t)}</div>`:''}
+async function syncCatalog(manual){
+ if(!SB||!AUTHED||IS_ADM||SYNCING)return;
+ if(!navigator.onLine){if(manual===true)flash('Vous êtes hors ligne : le contenu déjà téléchargé reste disponible.');return}
+ SYNCING=true;let changed=false,fail=0,n=0;
+ try{
+  const [kr,ar]=await Promise.all([SB.from('catalog_k').select('*'),SB.from('catalog_a').select('*')]);
+  if(kr.error||ar.error)throw new Error((kr.error||ar.error).message);
+  const ck=kr.data,ca=ar.data,keepK=new Set(ck.map(c=>'c_'+c.id)),keepA=new Set(ca.map(c=>'c_'+c.id));
+  for(const a of S.a.filter(a=>a.cat&&!keepA.has(a.id))){await delAirFiles(a);S.a=S.a.filter(x=>x!=a);S.p.forEach(p=>p.items.forEach(i=>{if(i.aid==a.id)i.aid=''}));changed=true}
+  for(const k of S.k.filter(k=>k.cat&&!keepK.has(k.id))){await fdel(k.pdf);S.k=S.k.filter(x=>x!=k);S.p.forEach(p=>{p.items=p.items.filter(i=>i.kid!=k.id);p.sched=p.sched.filter(e=>e.kid!=k.id)});changed=true}
+  for(const c of ck){const id='c_'+c.id;let k=S.k.find(x=>x.id==id);
+   if(!k){k={id,cat:true,aliases:[],added:String(c.created_at).slice(0,10)};S.k.push(k);changed=true}
+   Object.assign(k,{name:c.name,desc:c.descr||'',status:'published',pdfName:c.pdf_name||''});
+   if(c.pdf_path&&(k.cpath!=c.pdf_path||!(await have(k.pdf)))){try{snote('Téléchargement : '+c.name+'…');await fput(id+'_pdf',await dl(c.pdf_path));k.pdf=id+'_pdf';k.cpath=c.pdf_path;changed=true;n++}catch(e){fail++}}}
+  for(const c of ca){const id='c_'+c.id;let a=S.a.find(x=>x.id==id);
+   if(!a){a={id,kid:'c_'+c.kid,cat:true};S.a.push(a);changed=true}
+   Object.assign(a,{kid:'c_'+c.kid,name:c.name,type:c.type,yt:c.yt||'',reciter:c.reciter||'',desc:c.descr||''});
+   for(const [path,key,f] of [[c.audio_path,id+'_au','audio'],[c.video_path,id+'_vi','video']]){
+    if(path&&(a['c'+f]!=path||!(await have(a[f])))){try{snote('Téléchargement : '+c.name+'…');await fput(key,await dl(path));a[f]=key;a['c'+f]=path;changed=true;n++}catch(e){fail++}}}}
+  if(changed)save();
+  MSG=fail?`Contenu synchronisé, mais ${fail} fichier(s) n'ont pas pu être téléchargés. Réessayez avec « Mettre à jour le contenu hors ligne ».`:(changed&&n?`Contenu mis à jour : ${n} fichier(s) téléchargé(s), disponible(s) hors ligne.`:(manual===true?'Le contenu est déjà à jour.':''));
+ }catch(e){if(manual===true)MSG='Synchronisation impossible : '+(e.message||'erreur réseau')+'.'}
+ SYNCING=false;
+ if((changed||MSG)&&AUTHED&&!IS_ADM&&!ED&&!AE&&!SHOW&&V!='pform')render();else snote('')}
+addEventListener('online',()=>{setTimeout(()=>{syncCatalog();syncStats()},800)});
+// ---------- ADMIN : CONTENU (khassaïdes PDF, airs audio / vidéo)
+let CAT={loaded:false,k:[],a:[],err:''},CED=null,CQ='';
+const safeN=n=>String(n).normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^\w.\-]+/g,'_').slice(-80);
+async function loadCat(){CAT.loaded=true;
+ try{const [k,a]=await Promise.all([SB.from('catalog_k').select('*').order('created_at'),SB.from('catalog_a').select('*').order('created_at')]);if(k.error)throw k.error;if(a.error)throw a.error;CAT.k=k.data;CAT.a=a.data;CAT.err=''}
+ catch(e){CAT.err=e.message||'Erreur de chargement'}
+ if(IS_ADM&&V=='cat')$('#main').innerHTML=vCat()}
+function cnote(t,ok){const f=$('#fm');if(f)f.innerHTML=t?`<div class="note${ok?'':' err'}" role="status">${esc(t)}</div>`:'';if(t)scrollTo(0,0)}
+async function upF(path,file){const {error}=await SB.storage.from(BK).upload(path,file,{upsert:true,contentType:file.type||undefined});if(error)throw error}
+const isPdf=f=>/\.pdf$/i.test(f.name)||f.type=='application/pdf';
+function clistK(){const q=norm(CQ),l=CAT.k.filter(k=>!q||norm(k.name).includes(q));
+ if(!CAT.k.length)return empty('Aucun contenu officiel.','Ajoutez un premier khassaïde ci-dessus : tous les utilisateurs le recevront et pourront l\'utiliser hors ligne.');
+ if(!l.length)return empty('Aucun résultat.');
+ return l.map(k=>{const as=CAT.a.filter(a=>a.kid==k.id);return `<div class="card"><div class="row sp"><div class="grow"><h3>${esc(k.name)}</h3><span class="mut">${k.pdf_path?'PDF : '+esc(k.pdf_name||'ok'):'<b>Pas de PDF</b>'} · ${as.length} air(s)</span>${k.descr?`<p>${esc(k.descr)}</p>`:''}</div><div class="row"><button class="sm" onclick="CED=CED=='${k.id}'?null:'${k.id}';$('#main').innerHTML=vCat()">${CED==k.id?'Fermer':'Ajouter un air'}</button><button class="sm bad" onclick="cDelK('${k.id}')">Supprimer</button></div></div>
+ ${as.map(a=>`<div class="row sp" style="margin-top:.4rem"><span><b>${esc(a.name)}</b> <span class="badge">${{video:'Vidéo',audio:'Audio',both:'Audio + vidéo'}[a.type]}</span> <span class="mut">${esc(a.reciter||'')}${a.yt?' · YouTube':''}</span></span><button class="sm bad" onclick="cDelA('${a.id}')">Supprimer</button></div>`).join('')}
+ ${CED==k.id?`<div class="card" style="margin-top:.6rem"><h3>Nouvel air pour « ${esc(k.name)} »</h3><label for="can">Nom de l'air</label><input id="can"><div class="grid2"><div><label for="cat">Type</label><select id="cat"><option value="audio">Audio</option><option value="video">Vidéo</option><option value="both">Les deux</option></select></div><div><label for="car">Récitant (facultatif)</label><input id="car"></div><div><label for="cau">Fichier audio</label><input type="file" id="cau" accept="audio/*"></div><div><label for="cvf">Fichier vidéo</label><input type="file" id="cvf" accept="video/*"></div></div><label for="cyt">Lien YouTube (non disponible hors ligne)</label><input id="cyt" placeholder="https://www.youtube.com/watch?v=..."><label for="cad">Description (facultatif)</label><textarea id="cad" rows="2"></textarea><div class="row" style="margin-top:.6rem"><button id="cab" onclick="cAddA('${k.id}')">Enregistrer l'air</button></div></div>`:''}</div>`}).join('')}
+function vCat(){
+ if(!CAT.loaded)return `<h1>Contenu</h1><p class="mut">Chargement…</p>`;
+ if(CAT.err)return `<h1>Contenu</h1><div class="note err">${esc(CAT.err)}</div><p>Vérifiez que le script SQL du catalogue a été exécuté dans Supabase.</p><button onclick="CAT={loaded:false,k:[],a:[],err:''};render()">Réessayer</button>`;
+ return `<h1>Contenu officiel</h1><p class="mut">Tout ce que vous ajoutez ici est téléchargé automatiquement sur l'appareil de chaque utilisateur et reste utilisable sans connexion.</p>
+ <div class="card"><h3>Ajouter un khassaïde (PDF)</h3><label for="ckn">Nom du khassaïde</label><input id="ckn"><label for="ckf">Fichier PDF</label><input type="file" id="ckf" accept="application/pdf,.pdf"><label for="ckd">Description (facultatif)</label><textarea id="ckd" rows="2"></textarea><div class="row" style="margin-top:.6rem"><button id="ckb" onclick="cAddK()">Enregistrer</button></div></div>
+ <div class="card"><h3>Ajouter plusieurs PDF d'un coup</h3><p class="mut">Le nom de chaque fichier devient le nom du khassaïde. Vous pourrez ensuite ajouter les airs un par un.</p><input type="file" id="ckm" accept="application/pdf,.pdf" multiple><div class="row" style="margin-top:.6rem"><button id="ckmb" onclick="cAddBatch()">Envoyer les PDF</button></div></div>
+ <h2>Khassaïdes en ligne (${CAT.k.length})</h2><label for="cq">Rechercher</label><input id="cq" value="${esc(CQ)}" oninput="CQ=this.value;$('#cl').innerHTML=clistK()"><div id="cl" style="margin-top:.8rem">${clistK()}</div>`}
+function cBusy(id,on){const b=$('#'+id);if(b)b.disabled=on}
+async function cAddK(){
+ const n=$('#ckn').value.trim(),f=$('#ckf').files[0];
+ if(!n)return cnote('Saisissez le nom du khassaïde.');if(!f)return cnote('Choisissez le fichier PDF.');if(!isPdf(f))return cnote('Le fichier doit être un PDF.');
+ if(CAT.k.some(k=>norm(k.name)==norm(n)))return cnote('Ce khassaïde existe déjà.');
+ cBusy('ckb',true);cnote('Envoi en cours…',true);
+ try{const id=crypto.randomUUID(),path=id+'/'+safeN(f.name);await upF(path,f);
+  const {error}=await SB.from('catalog_k').insert({id,name:n,descr:$('#ckd').value.trim(),pdf_path:path,pdf_name:f.name});if(error){await SB.storage.from(BK).remove([path]);throw error}
+  await loadCat();cnote('Khassaïde ajouté : il sera disponible hors ligne chez les utilisateurs.',true)}
+ catch(e){cBusy('ckb',false);cnote(e.message||'Échec de l\'envoi.')}}
+async function cAddBatch(){
+ const fs=[...$('#ckm').files];if(!fs.length)return cnote('Choisissez un ou plusieurs PDF.');
+ cBusy('ckmb',true);let ok=0,skip=[],bad=[];
+ for(const f of fs){const n=f.name.replace(/\.pdf$/i,'').replace(/[_]+/g,' ').trim();
+  if(!isPdf(f)||!n||CAT.k.some(k=>norm(k.name)==norm(n))){skip.push(f.name);continue}
+  try{cnote(`Envoi ${ok+1}/${fs.length} : ${n}…`,true);const id=crypto.randomUUID(),path=id+'/'+safeN(f.name);await upF(path,f);
+   const {error}=await SB.from('catalog_k').insert({id,name:n,pdf_path:path,pdf_name:f.name});if(error){await SB.storage.from(BK).remove([path]);throw error}
+   CAT.k.push({id,name:n,pdf_path:path,pdf_name:f.name});ok++}catch(e){bad.push(f.name)}}
+ await loadCat();cnote(`${ok} khassaïde(s) ajouté(s).`+(skip.length?` Ignoré(s) (déjà présents ou non PDF) : ${skip.join(', ')}.`:'')+(bad.length?` Échec : ${bad.join(', ')}.`:''),!bad.length)}
+async function cAddA(kid){
+ const an=$('#can').value.trim(),ty=$('#cat').value,yt=$('#cyt').value.trim(),au=$('#cau').files[0],vf=$('#cvf').files[0];
+ if(!an)return cnote('Saisissez le nom de l\'air.');if(yt&&!ytId(yt))return cnote('Ce lien YouTube n\'est pas valide.');
+ if(ty=='audio'&&!au)return cnote('Ajoutez un fichier audio.');if(ty=='video'&&!vf&&!yt)return cnote('Ajoutez une vidéo ou un lien YouTube.');if(ty=='both'&&!(au&&(vf||yt)))return cnote('Pour « les deux », ajoutez l\'audio et la vidéo (ou le lien).');
+ cBusy('cab',true);const up=[];
+ try{const id=crypto.randomUUID(),row={id,kid,name:an,type:ty,yt:ty=='audio'?'':yt,reciter:$('#car').value.trim(),descr:$('#cad').value.trim()};
+  if(au){cnote('Envoi de l\'audio…',true);row.audio_path=id+'/audio_'+safeN(au.name);await upF(row.audio_path,au);up.push(row.audio_path);row.audio_name=au.name}
+  if(vf&&ty!='audio'){cnote('Envoi de la vidéo…',true);row.video_path=id+'/video_'+safeN(vf.name);await upF(row.video_path,vf);up.push(row.video_path)}
+  const {error}=await SB.from('catalog_a').insert(row);if(error)throw error;
+  CED=null;await loadCat();cnote('Air ajouté : il sera disponible hors ligne chez les utilisateurs.',true)}
+ catch(e){if(up.length)await SB.storage.from(BK).remove(up);cBusy('cab',false);cnote(e.message||'Échec de l\'envoi (fichier trop volumineux ?).')}}
+async function cDelA(id){const a=CAT.a.find(x=>x.id==id);if(!a||!confirm('Supprimer l\'air « '+a.name+' » pour tous les utilisateurs ?'))return;
+ const {error}=await SB.from('catalog_a').delete().eq('id',id);if(error)return cnote(error.message);
+ await SB.storage.from(BK).remove([a.audio_path,a.video_path].filter(Boolean));await loadCat();cnote('Air supprimé.',true)}
+async function cDelK(id){const k=CAT.k.find(x=>x.id==id);if(!k||!confirm('Supprimer « '+k.name+' » et ses airs pour tous les utilisateurs ?'))return;
+ const as=CAT.a.filter(a=>a.kid==id),paths=[k.pdf_path,...as.flatMap(a=>[a.audio_path,a.video_path])].filter(Boolean);
+ const {error}=await SB.from('catalog_k').delete().eq('id',id);if(error)return cnote(error.message);
+ if(paths.length)await SB.storage.from(BK).remove(paths);await loadCat();cnote('Khassaïde supprimé.',true)}
 boot();
 if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));
+updInstall();
 </script></body></html>
