@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>KY TERWLOU</title>
+    <title>KY TEWLOU</title>
     <meta name="description" content="Lire, apprendre et répéter les khassaïdes de Serigne Touba">
     <meta name="theme-color" content="#0E5A43">
     <link rel="manifest" href="/manifest.webmanifest">
@@ -11,7 +11,7 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-title" content="KY TERWLOU">
+    <meta name="apple-mobile-web-app-title" content="KY TEWLOU">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Source+Sans+3:wght@400;600;700&display=swap">
@@ -702,7 +702,7 @@
         function render() {
             if (!AUTHED) return renderAuth();
             $('#lo').hidden = !SB; $('#lo').textContent = (UID == 'local' && !IS_ADM) ? 'Connexion' : 'Sortir';
-            $('#hd').innerHTML = logoImg() + '<b>KY TERWLOU</b>';
+            $('#hd').innerHTML = logoImg() + '<b>KY TEWLOU</b>';
             $('#nav').innerHTML = (IS_ADM ? ANAVS : NAVS).map(n => `<button class="${V == n[0] || (V == 'pform' || V == 'pdet' || V == 'recap') && n[0] == 'prog' ? 'on' : ''}" onclick="go('${n[0]}')" aria-label="${n[1]}"><span class="ic" aria-hidden="true">${n[2]}</span><span class="lg">${n[1]}</span><span class="sh">${n[3]}</span></button>`).join('');
             $('#fm').innerHTML = MSG ? `<div class="note" role="status">${esc(MSG)}</div>` : ''; MSG = '';
             $('#main').innerHTML = ({ home: vHome, lib: vLib, airs: vAirs, prog: vProg, pform: vForm, recap: vRecap, pdet: vDet, dah: vDah, set: vSet, adm: vAdm, usr: vUsr }[V])();
@@ -719,7 +719,7 @@
         const START = `<div class="card"><h2>Pour commencer</h2><div class="row" style="align-items:stretch"><div class="grow"><span class="num">1</span><br><b>Ajoutez un khassaïde</b><br><span class="mut">Importez son PDF dans la bibliothèque.</span><br><button class="sm" style="margin-top:.5rem" onclick="go('lib')">Ouvrir la bibliothèque</button></div><div class="grow"><span class="num">2</span><br><b>Ajoutez son air</b><br><span class="mut">Audio, vidéo ou lien YouTube.</span><br><button class="sm" style="margin-top:.5rem" onclick="go('airs')">Ajouter un air</button></div><div class="grow"><span class="num">3</span><br><b>Créez un programme</b><br><span class="mut">Choisissez les khassaïdes et les dates.</span><br><button class="sm" style="margin-top:.5rem" onclick="newProg()">Créer un programme</button></div></div><p class="mut" style="margin-bottom:0">Vos données restent privées : elles sont enregistrées sur votre appareil. Le bouton A+ agrandit le texte.</p></div>`;
         function vHome() {
             const td = allSched().filter(e => e.date == today());
-            return `<div class="card row">${logoImg('logo')}<div><h1 style="margin:0">Bienvenue sur KY TERWLOU</h1><span class="mut">Lire, apprendre et répéter les khassaïdes de Serigne Touba.</span></div></div>
+            return `<div class="card row">${logoImg('logo')}<div><h1 style="margin:0">Bienvenue sur KY TEWLOU</h1><span class="mut">Lire, apprendre et répéter les khassaïdes de Serigne Touba.</span></div></div>
  ${(!S.k.length && !S.p.length) ? START : ''}<h2>À réciter aujourd'hui</h2>${td.length ? td.map(rowE).join('') : empty('Rien de prévu aujourd\'hui.', S.k.length ? `<button onclick="newProg()">Créer un programme</button>` : `<button onclick="go('lib')">Ajouter un premier khassaïde</button>`)}`
         }
         function rowE(e) {
@@ -888,7 +888,7 @@
   <div class="noprint">${itemRow2(p, i)}</div></div>`
             }).join('');
             const add = S.k.filter(k => !p.items.some(i => i.kid == k.id));
-            return `<div class="pr">${logoImg('logo')}<h2 style="margin:0">KY TERWLOU</h2></div><button class="sec sm noprint" onclick="go('prog')">← Mes programmes</button><h1>Détail du programme</h1>
+            return `<div class="pr">${logoImg('logo')}<h2 style="margin:0">KY TEWLOU</h2></div><button class="sec sm noprint" onclick="go('prog')">← Mes programmes</button><h1>Détail du programme</h1>
  <div class="card"><h2>${esc(p.name)}</h2><span class="badge">${ST[p.status]}</span><p>${p.type == 'dahira' ? 'Dahira : ' + esc(p.dahira || '—') + '<br>' : ''}${p.manager ? 'Responsable : ' + esc(p.manager) + '<br>' : ''}Période : ${PER[p.period]} · du ${fmt(p.start)} au ${fmt(p.end)}<br>${p.items.length} khassaïde(s)${p.obj ? ' · objectif : ' + p.obj + ' répétition(s)' : ''}</p>${p.desc ? `<p>${esc(p.desc)}</p>` : ''}<div class="bar"><i style="width:${prog(p)}%"></i></div><b>${prog(p)} %</b> réalisé</div>
  <div class="row noprint" style="margin-bottom:1rem"><button class="sm sec" onclick="editP('${p.id}')">Modifier</button>${p.status == 'draft' ? `<button class="sm" onclick="setSt('${p.id}','active')">Activer</button>` : ''}<button class="sm sec" onclick="dup('${p.id}')">Dupliquer</button><button class="sm sec" onclick="setSt('${p.id}','${p.status == 'archived' ? 'active' : 'archived'}')">${p.status == 'archived' ? 'Désarchiver' : 'Archiver'}</button><button class="sm sec" onclick="print()">Imprimer / exporter en PDF</button><button class="sm sec" onclick="share('${p.id}')">Partager</button><button class="sm bad" onclick="delP('${p.id}')">Supprimer</button></div><div id="ed"></div><div id="sh"></div>
  <h2>Khassaïdes à réciter</h2>${cards || empty('Aucun khassaïde dans ce programme.')}
@@ -974,7 +974,7 @@
             if (f) { MF = { id: f.id, enroll: false } }
             else {
                 for (const u of (data.all || []).filter(x => x.status == 'unverified')) await SB.auth.mfa.unenroll({ factorId: u.id });
-                const r = await SB.auth.mfa.enroll({ factorType: 'totp', friendlyName: 'KY TERWLOU ' + Date.now() }); if (r.error) return r.error.message;
+                const r = await SB.auth.mfa.enroll({ factorType: 'totp', friendlyName: 'KY TEWLOU ' + Date.now() }); if (r.error) return r.error.message;
                 MF = { id: r.data.id, enroll: true, qr: r.data.totp.qr_code, secret: r.data.totp.secret }
             }
             AMODE = 'mfa'; return ''
@@ -1020,7 +1020,7 @@
         function localMode() { UID = 'local'; try { localStorage.setItem('kyt-guest', '1') } catch (e) { } loadS(); openDB(); AUTHED = true; V = 'home'; render() }
         function mfaHtml() { return `<h2>Code de confirmation</h2>${MF && MF.enroll ? `<p style="text-align:left">Première connexion : scannez ce code avec une application d'authentification (Google Authenticator, Microsoft Authenticator, Authy), puis saisissez le code à 6 chiffres affiché.</p><img id="qr" alt="QR code à scanner" style="width:200px;height:200px;background:#fff"><p class="mut" style="word-break:break-all;font-size:.85rem">Clé manuelle : ${esc(MF.secret)}</p>` : `<p>Saisissez le code à 6 chiffres de votre application d'authentification.</p>`}<input id="mc" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000" aria-label="Code à 6 chiffres" style="text-align:center;font-size:1.4rem;letter-spacing:.3em" onkeydown="if(event.key=='Enter')mfaVerify()"><br><br><button id="ab" style="width:100%;justify-content:center" onclick="mfaVerify()">Valider</button><p><button class="sm sec" onclick="signOut()">Annuler</button></p>` }
         function renderAuth() {
-            $('#hd').innerHTML = logoImg() + '<b>KY TERWLOU</b>'; $('#nav').innerHTML = ''; $('#lo').hidden = true; $('#fm').innerHTML = '';
+            $('#hd').innerHTML = logoImg() + '<b>KY TEWLOU</b>'; $('#nav').innerHTML = ''; $('#lo').hidden = true; $('#fm').innerHTML = '';
             let body;
             if (!CONF) body = ADMIN_PATH ? `<div class="note err">La connexion est indisponible (hors ligne ou service non chargé). Réessayez plus tard.</div>` : `<div class="note">La connexion est indisponible pour le moment. Vous pouvez utiliser l'application sans compte.</div><button style="width:100%;justify-content:center" onclick="localMode()">Utiliser sans compte</button>`;
             else if (AMODE == 'mfa') body = mfaHtml();
@@ -1031,7 +1031,7 @@
   <button id="ab" style="width:100%;justify-content:center" onclick="doAuth()">${ATAB == 'admin' ? 'Continuer' : up ? 'Créer mon compte' : 'Se connecter'}</button>
   <p>${ATAB == 'user' ? `<button class="sm sec" onclick="AMODE='${up ? 'in' : 'up'}';renderAuth()">${up ? 'Déjà un compte ?' : 'Créer un compte'}</button> ` : ''}<button class="sm sec" onclick="resetPw()">Mot de passe oublié</button></p>${ATAB == 'user' ? `<hr style="border:0;border-top:1px solid var(--line);margin:1rem 0"><button class="sec" style="width:100%;justify-content:center" onclick="localMode()">Utiliser sans compte</button><p class="mut" style="font-size:.9rem">Vos données restent sur cet appareil.</p>` : ''}`
             }
-            $('#main').innerHTML = `<div class="card" style="max-width:440px;margin:1rem auto;text-align:center">${logoImg('logo big')}<h1 style="margin-top:.5rem">KY TERWLOU</h1><div id="am" class="note err" role="alert" hidden></div>${body}</div>`;
+            $('#main').innerHTML = `<div class="card" style="max-width:440px;margin:1rem auto;text-align:center">${logoImg('logo big')}<h1 style="margin-top:.5rem">KY TEWLOU</h1><div id="am" class="note err" role="alert" hidden></div>${body}</div>`;
             if (AMODE == 'mfa' && MF && MF.qr) { const q = $('#qr'); if (q) q.src = MF.qr }
         }
         async function syncStats() {
