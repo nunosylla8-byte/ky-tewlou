@@ -499,9 +499,14 @@ function vCat(){
  if(!CAT.loaded)return `<h1>Contenu</h1><p class="mut">Chargement…</p>`;
  if(CAT.err)return `<h1>Contenu</h1><div class="note err">${esc(CAT.err)}</div><p>Vérifiez que le script SQL du catalogue a été exécuté dans Supabase.</p><button onclick="CAT={loaded:false,k:[],a:[],err:''};render()">Réessayer</button>`;
  return `<h1>Khassaïdes et airs officiels</h1><p class="mut">Tout ce que vous ajoutez ici est téléchargé automatiquement sur l'appareil de chaque utilisateur et reste utilisable sans connexion.</p>
- <div class="card"><h3>Ajouter un khassaïde (PDF)</h3><label for="ckn">Nom du khassaïde</label><input id="ckn"><label for="ckf">Fichier PDF</label><input type="file" id="ckf" accept="application/pdf,.pdf"><label for="ckd">Description (facultatif)</label><textarea id="ckd" rows="2"></textarea><div class="row" style="margin-top:.6rem"><button id="ckb" onclick="cAddK()">Enregistrer</button></div></div>
+ <div class="card"><h3>Ajouter un khassaïde et son air</h3>
+ <label for="xkn">Nom du khassaïde</label><input id="xkn" list="xkl" oninput="cinfo()"><datalist id="xkl">${CAT.k.map(k=>`<option value="${esc(k.name)}">`).join('')}</datalist><div id="xki" class="mut"></div>
+ <label for="xkf">PDF du khassaïde (obligatoire pour un nouveau khassaïde, sinon seulement pour le remplacer)</label><input type="file" id="xkf" accept="application/pdf,.pdf">
+ <div class="grid2"><div><label for="xan">Nom de l'air</label><input id="xan"></div><div><label for="xat">Type de média</label><select id="xat"><option value="video">Vidéo</option><option value="audio">Audio</option><option value="both">Les deux</option></select></div>
+ <div><label for="xau">Fichier audio</label><input type="file" id="xau" accept="audio/*"></div><div><label for="xvf">Fichier vidéo</label><input type="file" id="xvf" accept="video/*"></div></div>
+ <label for="xyt">Lien YouTube</label><input id="xyt" placeholder="https://www.youtube.com/watch?v=..."><label for="xar">Nom du récitant (facultatif)</label><input id="xar"><label for="xad">Description (facultatif)</label><textarea id="xad" rows="2"></textarea>
+ <div class="row" style="margin-top:.8rem"><button id="xab" onclick="cAddKA(false)">Enregistrer</button><button id="xab2" class="sec" onclick="cAddKA(true)">Enregistrer et ajouter un autre air</button><button class="sec" onclick="cprev()">Prévisualiser</button><button class="sec" onclick="closeP();CED=null;$('#main').innerHTML=vCat()">Annuler</button></div></div>
  <div class="card"><h3>Ajouter plusieurs PDF d'un coup</h3><p class="mut">Le nom de chaque fichier devient le nom du khassaïde. Vous pourrez ensuite ajouter les airs un par un.</p><input type="file" id="ckm" accept="application/pdf,.pdf" multiple><div class="row" style="margin-top:.6rem"><button id="ckmb" onclick="cAddBatch()">Envoyer les PDF</button></div></div>
- <div class="card"><h3>Ajouter un air</h3>${CAT.k.length?`<label for="xk">Khassaïde</label><select id="xk"><option value="">Choisir…</option>${CAT.k.map(k=>`<option value="${k.id}">${esc(k.name)}</option>`).join('')}</select><label for="xan">Nom de l'air</label><input id="xan"><div class="grid2"><div><label for="xat">Type</label><select id="xat"><option value="audio">Audio</option><option value="video">Vidéo</option><option value="both">Les deux</option></select></div><div><label for="xar">Récitant (facultatif)</label><input id="xar"></div><div><label for="xau">Fichier audio</label><input type="file" id="xau" accept="audio/*"></div><div><label for="xvf">Fichier vidéo</label><input type="file" id="xvf" accept="video/*"></div></div><label for="xyt">Lien YouTube (non disponible hors ligne)</label><input id="xyt" placeholder="https://www.youtube.com/watch?v=..."><label for="xad">Description (facultatif)</label><textarea id="xad" rows="2"></textarea><div class="row" style="margin-top:.6rem"><button id="xab" onclick="cAddA($('#xk').value,'x')">Enregistrer l'air</button></div>`:'<p class="mut">Ajoutez d\'abord un khassaïde ci-dessus, puis vous pourrez lui associer des airs.</p>'}</div>
  <h2>Khassaïdes en ligne (${CAT.k.length})</h2><label for="cq">Rechercher</label><input id="cq" value="${esc(CQ)}" oninput="CQ=this.value;$('#cl').innerHTML=clistK()"><div id="cl" style="margin-top:.8rem">${clistK()}</div>`}
 function cBusy(id,on){const b=$('#'+id);if(b)b.disabled=on}
 async function cAddK(){
@@ -533,6 +538,37 @@ async function cAddA(kid,p){p=p||'c';if(!kid)return cnote('Choisissez le khassa�
   const {error}=await SB.from('catalog_a').insert(row);if(error)throw error;
   CED=null;await loadCat();cnote('Air ajouté : il sera disponible hors ligne chez les utilisateurs.',true)}
  catch(e){if(up.length)await SB.storage.from(BK).remove(up);cBusy(p+'ab',false);cnote(e.message||'Échec de l\'envoi (fichier trop volumineux ?).')}}
+function cinfo(){const e=$('#xki');if(!e)return;const v=$('#xkn').value.trim(),k=CAT.k.find(x=>norm(x.name)==norm(v));e.textContent=k?`Khassaïde existant : l'air sera ajouté à cette fiche (${k.pdf_path?'PDF déjà associé':'pas encore de PDF'}).`:(v?'Nouveau khassaïde : une fiche sera créée (le PDF est obligatoire).':'')}
+function cprev(){const au=$('#xau').files[0],vf=$('#xvf').files[0],yt=$('#xyt').value.trim();let h='';
+ if(au)h+=`<audio controls src="${URL.createObjectURL(au)}"></audio>`;if(vf)h+=`<video controls src="${URL.createObjectURL(vf)}"></video>`;
+ if(yt){if(!ytId(yt))return cnote('Ce lien YouTube n\'est pas valide.');h+=`<iframe class="yt" src="https://www.youtube-nocookie.com/embed/${ytId(yt)}" title="Aperçu"></iframe>`}
+ if(!h)return cnote('Choisissez un fichier ou un lien à prévisualiser.');
+ panel(`<div class="row sp"><b>Aperçu avant enregistrement</b><button class="sm" onclick="closeP()">Fermer</button></div>${h}`)}
+async function cAddKA(another){
+ const kn=$('#xkn').value.trim(),an=$('#xan').value.trim(),ty=$('#xat').value,yt=$('#xyt').value.trim(),au=$('#xau').files[0],vf=$('#xvf').files[0],pf=$('#xkf').files[0];
+ if(!kn)return cnote('Saisissez le nom du khassaïde.');if(!an)return cnote('Saisissez le nom de l\'air.');
+ if(yt&&!ytId(yt))return cnote('Ce lien YouTube n\'est pas valide.');
+ if(pf&&!isPdf(pf))return cnote('Le fichier du khassaïde doit être un PDF.');
+ if(ty=='audio'&&!au)return cnote('Ajoutez un fichier audio.');if(ty=='video'&&!vf&&!yt)return cnote('Ajoutez une vidéo ou un lien YouTube.');if(ty=='both'&&!(au&&(vf||yt)))return cnote('Pour « les deux », ajoutez l\'audio et la vidéo (ou le lien).');
+ let k=CAT.k.find(x=>norm(x.name)==norm(kn));
+ if(!k&&!pf)return cnote('C\'est un nouveau khassaïde : ajoutez son fichier PDF.');
+ cBusy('xab',true);cBusy('xab2',true);const up=[];let made=false;
+ try{
+  if(!k){cnote('Envoi du PDF…',true);const id=crypto.randomUUID(),path=id+'/'+safeN(pf.name);await upF(path,pf);
+   const {error}=await SB.from('catalog_k').insert({id,name:kn,descr:'',pdf_path:path,pdf_name:pf.name});if(error){await SB.storage.from(BK).remove([path]);throw error}
+   k={id,name:kn,pdf_path:path,pdf_name:pf.name};CAT.k.push(k);made=true}
+  else if(pf){cnote('Envoi du PDF…',true);const path=k.id+'/'+safeN(pf.name);await upF(path,pf);
+   const {error}=await SB.from('catalog_k').update({pdf_path:path,pdf_name:pf.name}).eq('id',k.id);if(error){await SB.storage.from(BK).remove([path]);throw error}
+   if(k.pdf_path&&k.pdf_path!=path)await SB.storage.from(BK).remove([k.pdf_path]);k.pdf_path=path;k.pdf_name=pf.name}
+  const id=crypto.randomUUID(),row={id,kid:k.id,name:an,type:ty,yt:ty=='audio'?'':yt,reciter:$('#xar').value.trim(),descr:$('#xad').value.trim()};
+  if(au){cnote('Envoi de l\'audio…',true);row.audio_path=id+'/audio_'+safeN(au.name);await upF(row.audio_path,au);up.push(row.audio_path);row.audio_name=au.name}
+  if(vf&&ty!='audio'){cnote('Envoi de la vidéo…',true);row.video_path=id+'/video_'+safeN(vf.name);await upF(row.video_path,vf);up.push(row.video_path)}
+  const {error}=await SB.from('catalog_a').insert(row);if(error)throw error;
+  closeP();await loadCat();
+  if(another){const e=$('#xkn');if(e){e.value=kn;cinfo()}}
+  cnote(another?`Air « ${an} » enregistré. Ajoutez le suivant pour « ${kn} ».`:'Khassaïde et air enregistrés : ils seront disponibles hors ligne chez les utilisateurs.',true)}
+ catch(e){if(up.length)await SB.storage.from(BK).remove(up);cBusy('xab',false);cBusy('xab2',false);
+  if(made)await loadCat();cnote((made?'Le khassaïde a été créé, mais l\'air n\'a pas pu être enregistré : ':'')+(e.message||'Échec de l\'envoi (fichier trop volumineux ?).'))}}
 async function cDelA(id){const a=CAT.a.find(x=>x.id==id);if(!a||!confirm('Supprimer l\'air « '+a.name+' » pour tous les utilisateurs ?'))return;
  const {error}=await SB.from('catalog_a').delete().eq('id',id);if(error)return cnote(error.message);
  await SB.storage.from(BK).remove([a.audio_path,a.video_path].filter(Boolean));await loadCat();cnote('Air supprimé.',true)}
