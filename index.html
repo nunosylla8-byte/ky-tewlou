@@ -430,14 +430,16 @@ function installApp(){
  const SHI='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/></svg>',
  PLS='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M12 8v8M8 12h8"/></svg>',
  st=(n,ico,t)=>`<div class="stp"><i>${n}</i><div class="grow">${t}</div><span class="ico">${ico}</span></div>`;
- let h;
- if(isIOS()){const safari=!/crios|fxios|edgios|opios|gsa\/|fban|fbav|instagram|line\/|whatsapp/i.test(navigator.userAgent);
+ let h,btn='<button class="grow" onclick="closeSheet()">Compris</button>';
+ if(isIOS()){const safari=!/crios|fxios|edgios|opios|gsa\/|fban|fbav|instagram|line\/|whatsapp/i.test(navigator.userAgent),can=!!navigator.share;
   h=`<h2>Installer Käy Tëwlü sur iPhone</h2>${safari?'':`<div class="note">Pour installer l'application, ouvrez ce site dans <b>Safari</b>.<br><button class="sm" style="margin-top:.5rem" onclick="copyLink(this)">Copier le lien</button></div>`}
-  ${st(1,SHI,'Touchez le bouton <b>Partager</b> en bas de Safari (ou <b>•••</b> puis <b>Partager</b>).')}
-  ${st(2,PLS,'Faites défiler et touchez <b>« Sur l\'écran d\'accueil »</b>.')}
-  ${st(3,'✓','Touchez <b>Ajouter</b> en haut à droite. L\'icône apparaît sur votre écran d\'accueil.')}`}
+  <p class="mut" style="margin:.2rem 0 0">Apple impose 2 touches pour ajouter une application à l'écran d'accueil.</p>
+  ${st(1,SHI,can?'Touchez le bouton vert <b>« Ouvrir le menu Partager »</b> ci-dessous.':'Touchez le bouton <b>Partager</b> en bas de Safari (ou <b>•••</b> puis <b>Partager</b>).')}
+  ${st(2,PLS,'Dans la liste, touchez <b>« Sur l\'écran d\'accueil »</b>, puis <b>Ajouter</b>.')}`;
+  if(can)btn='<button class="grow" onclick="shareIOS()">Ouvrir le menu Partager</button><button class="sec" onclick="closeSheet()">Fermer</button>'}
  else h=`<h2>Installer Käy Tëwlü</h2>${st(1,'⋮','Ouvrez le menu du navigateur (<b>⋮</b> ou <b>⋯</b>).')}${st(2,PLS,'Choisissez <b>« Installer l\'application »</b> ou <b>« Ajouter à l\'écran d\'accueil »</b>.')}`;
- sheet(h+`<div class="row" style="margin-top:1rem"><button class="grow" onclick="closeSheet()">Compris</button></div>`)}
+ sheet(h+`<div class="row" style="margin-top:1rem">${btn}</div>`)}
+function shareIOS(){closeSheet();try{navigator.share({title:'Käy Tëwlü',url:location.origin+'/'}).catch(()=>{})}catch(e){}}
 function sheet(h){let e=$('#ms');if(!e){e=document.createElement('div');e.id='ms';e.className='msheet';document.body.appendChild(e)}e.hidden=false;e.innerHTML=`<div class="msbg" onclick="closeSheet()"></div><div class="msb" role="dialog" aria-modal="true">${h}</div>`}
 function closeSheet(){const e=$('#ms');if(e){e.hidden=true;e.innerHTML=''}}
 addEventListener('keydown',e=>{if(e.key=='Escape')closeSheet()});
