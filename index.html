@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="fr"><head><meta charset="utf-8"><title>KY TEWLOU</title><meta name="description" content="Lire, apprendre et répéter les khassaïdes de Serigne Touba"><meta name="theme-color" content="#0E5A43">
+<html lang="fr"><head><meta charset="utf-8"><title>Käy Tëwlü</title><meta name="description" content="Lire, apprendre et répéter les khassaïdes de Serigne Touba"><meta name="theme-color" content="#0E5A43">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="icon" type="image/png" href="/icon-192.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<meta property="og:title" content="KY TEWLOU"><meta property="og:description" content="Lire, apprendre et répéter les khassaïdes de Serigne Touba"><meta property="og:type" content="website"><meta property="og:image" content="/icon-512.png"><meta name="twitter:card" content="summary">
-<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="KY TEWLOU">
+<meta property="og:title" content="Käy Tëwlü"><meta property="og:description" content="Lire, apprendre et répéter les khassaïdes de Serigne Touba"><meta property="og:type" content="website"><meta property="og:image" content="/icon-512.png"><meta name="twitter:card" content="summary">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Käy Tëwlü">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Source+Sans+3:wght@400;600;700&display=swap">
 <style>
@@ -42,8 +42,52 @@ label{display:block;font-weight:600;margin:.6rem 0 .2rem}label.ck{display:flex;g
 textarea.code{font-family:ui-monospace,monospace;font-size:.82rem;min-height:120px}.pr{display:none}
 @media print{header,nav,#panel,button,.noprint,a.btn,input,select{display:none!important}.pr{display:flex;gap:1rem;align-items:center;border-bottom:3px solid #B8892B;margin-bottom:1rem}body{background:#fff;color:#000}.card{break-inside:avoid}}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.7rem;margin-bottom:1rem}.stat{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:6px;padding:.7rem 1rem}.stat b{font:700 1.9rem Amiri,serif;color:var(--g);display:block}.stat span{color:var(--mut);font-size:.9rem}nav:empty{display:none}@media(min-width:1000px){nav:empty+main{margin-left:0}nav:empty+main #fm,nav:empty+main #main{margin:0 auto}}
+
+[hidden]{display:none!important}
+#main>.row.sp{margin-bottom:.8rem}
+.acts>.badge{background:transparent!important;border:1px dashed currentColor}
+/* ---- en-tête ---- */
+header #hd{flex:1 1 auto;min-width:0;gap:.6rem}
+header #hd b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+header .hb{flex:none;display:flex;gap:.4rem;align-items:center}
+header .hb button{min-height:40px;padding:.3rem .75rem;white-space:nowrap;justify-content:center}
+header .hb .ib{width:40px;padding:0;font-size:1.1rem}
+header #ins{background:var(--gold);border-color:var(--gold);color:#1b1405;font-weight:700}
+@media(max-width:559px){header .hl{display:none}header #ins{width:40px;padding:0;font-size:1.1rem}header{padding:0 .7rem;gap:.4rem}.logo{height:40px}}
+/* ---- boutons d'action : même taille, bien séparés ---- */
+.kc{display:flex;flex-direction:column;gap:.8rem}
+.kc.air{border-top:1px solid var(--line);padding-top:.6rem;margin-top:.5rem}
+.acts{display:flex;flex-wrap:wrap;gap:.6rem;align-items:stretch}
+.acts>button,.acts>a.btn,.acts>.badge,.acts>select{flex:1 1 120px;width:auto;min-height:40px;padding:.4rem .8rem;border-radius:8px;font-size:.95rem;justify-content:center;text-align:center;text-align-last:center}
+.acts>.badge{display:flex;align-items:center;font-weight:600}
+.acts>select{background:var(--bg)}
+@media(min-width:700px){.kc:not(.air){flex-direction:row;align-items:center;justify-content:space-between;gap:1rem}.kc.air{flex-direction:row;align-items:center;justify-content:space-between}.kc>.acts{flex:none;justify-content:flex-end}.acts>button,.acts>a.btn,.acts>.badge,.acts>select{flex:0 0 auto;min-width:130px}}
+.cgrid{display:grid;grid-template-columns:1fr;gap:.8rem}.cgrid>*{min-width:0;margin:0}.cgrid>.empty{margin-bottom:.8rem}
+.cgrid .kc{flex-direction:column!important;align-items:stretch!important}
+.cgrid .kc>.acts{justify-content:stretch}
+.cgrid .kc>.acts>button,.cgrid .kc>.acts>a.btn,.cgrid .kc>.acts>.badge{flex:1 1 110px;min-width:0}
+/* ---- accueil ---- */
+.hero{display:flex;align-items:center;gap:1rem;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1rem 1.2rem;margin-bottom:1rem}
+.hero img.logo{height:72px;width:72px}.hero h1{margin:0;font-size:1.8rem}
+.inst{border-left:4px solid var(--gold);background:var(--g2)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.8rem;margin:.6rem 0}
+.step{display:flex;flex-direction:column;gap:.3rem;border:1px solid var(--line);border-radius:10px;padding:.9rem;background:var(--bg)}
+.step button{margin-top:auto;width:100%;justify-content:center}.step .num{line-height:1}.step>b{margin-top:.1rem}.step>.mut{margin-bottom:.6rem}
+@media(max-width:699px){.hero img.logo{height:56px;width:56px}.hero h1{font-size:1.4rem}.hero{padding:.8rem}}
+/* ---- bureau ---- */
+@media(min-width:1000px){main{padding:2rem 3rem 6rem}#fm,#main{max-width:1040px;margin:0 auto}.cgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.row.sp>h1{margin-bottom:1rem}}
+@media(min-width:1000px){header{padding:0 1.5rem}header .hb button{min-height:42px}}
+/* ---- feuille d'installation ---- */
+.msheet{position:fixed;inset:0;z-index:50;display:flex;align-items:flex-end;justify-content:center}.msheet[hidden]{display:none}
+.msbg{position:absolute;inset:0;background:#000a}
+.msb{position:relative;background:var(--card);color:var(--ink);width:100%;max-width:480px;border-radius:16px 16px 0 0;border-top:3px solid var(--gold);padding:1.2rem 1.2rem calc(1.2rem + env(safe-area-inset-bottom,0px));max-height:85vh;overflow:auto}
+@media(min-width:700px){.msheet{align-items:center}.msb{border-radius:16px}}
+.stp{display:flex;gap:.8rem;align-items:center;margin:.8rem 0}
+.stp i{flex:none;width:34px;height:34px;border-radius:50%;background:var(--g);color:#fff;display:flex;align-items:center;justify-content:center;font:700 1rem Amiri,serif;font-style:normal}
+.stp .ico{flex:none;width:42px;height:42px;border:1px solid var(--line);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--g);font-size:1.2rem}
+@media print{.msheet{display:none!important}}
 </style></head><body>
-<header><div class="row" id="hd"></div><div class="row" style="flex:none"><button class="sm" id="ins" onclick="installApp()" hidden>Installer</button><button class="sm" id="lo" onclick="signOut()" hidden>Sortir</button><button class="sm" onclick="theme()" aria-label="Changer de thème">Thème</button></div></header>
+<header><div class="row" id="hd"></div><div class="hb"><button class="sm" id="ins" onclick="installApp()" aria-label="Installer l'application" hidden><span aria-hidden="true">⬇</span><span class="hl">&nbsp;Installer</span></button><button class="sm" id="su" onclick="goSignup()" hidden>S'inscrire</button><button class="sm" id="lo" onclick="signOut()" hidden>Sortir</button><button class="sm ib" onclick="theme()" aria-label="Changer de thème">🌓</button></div></header>
 <nav id="nav"></nav><main><div id="fm" role="status"></div><div id="main"></div></main><div id="pdfp" hidden></div><div id="panel" hidden></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
@@ -75,8 +119,8 @@ let GLOGO="";try{GLOGO=localStorage.getItem("kyt-logo")||""}catch(e){}
 const logoImg=c=>`<img src="${GLOGO||TOUBA}" alt="Minaret de la mosquée de Touba" class="${c||'logo'}">`;
 function render(){
  if(!AUTHED)return renderAuth();
- $('#lo').hidden=!SB;$('#lo').textContent=(UID=='local'&&!IS_ADM)?'Connexion':'Sortir';
- $('#hd').innerHTML=logoImg()+'<b>KY TEWLOU</b>';
+ {const logged=UID!='local'||IS_ADM;$('#lo').hidden=!SB||!logged;$('#su').hidden=!SB||logged}
+ $('#hd').innerHTML=logoImg()+'<b>Käy Tëwlü</b>';
  $('#nav').innerHTML=(IS_ADM?ANAVS:NAVS).map(n=>`<button class="${V==n[0]||(V=='pform'||V=='pdet'||V=='recap')&&n[0]=='prog'?'on':''}" onclick="go('${n[0]}')" aria-label="${n[1]}"><span class="ic" aria-hidden="true">${n[2]}</span><span class="lg">${n[1]}</span><span class="sh">${n[3]}</span></button>`).join('');
  $('#fm').innerHTML=MSG?`<div class="note" role="status">${esc(MSG)}</div>`:'';MSG='';
  $('#main').innerHTML=({home:vHome,lib:vLib,airs:vAirs,prog:vProg,pform:vForm,recap:vRecap,pdet:vDet,dah:vDah,set:vSet,adm:vAdm,usr:vUsr,cat:vCat}[V])();
@@ -92,12 +136,12 @@ try{new ResizeObserver(layoutPdf).observe($('#panel'))}catch(e){}addEventListene
 // ---------- ACCUEIL
 function allSched(){return S.p.filter(p=>p.status=='active').flatMap(p=>p.sched.map(e=>({...e,pid:p.id,pn:p.name})))}
 function prog(p){return p.sched.length?Math.round(p.sched.filter(e=>isDone(e.id)).length/p.sched.length*100):0}
-const START=`<div class="card"><h2>Pour commencer</h2><div class="row" style="align-items:stretch"><div class="grow"><span class="num">1</span><br><b>Ajoutez un khassaïde</b><br><span class="mut">Importez son PDF dans la bibliothèque.</span><br><button class="sm" style="margin-top:.5rem" onclick="go('lib')">Ouvrir la bibliothèque</button></div><div class="grow"><span class="num">2</span><br><b>Ajoutez son air</b><br><span class="mut">Audio, vidéo ou lien YouTube.</span><br><button class="sm" style="margin-top:.5rem" onclick="go('airs')">Ajouter un air</button></div><div class="grow"><span class="num">3</span><br><b>Créez un programme</b><br><span class="mut">Choisissez les khassaïdes et les dates.</span><br><button class="sm" style="margin-top:.5rem" onclick="newProg()">Créer un programme</button></div></div><p class="mut" style="margin-bottom:0">Vos données restent privées : elles sont enregistrées sur votre appareil.</p></div>`;
+const START=`<div class="card"><h2>Pour commencer</h2><div class="steps"><div class="step"><span class="num">1</span><b>Ajoutez un khassaïde</b><span class="mut">Importez son PDF dans la bibliothèque.</span><button onclick="go('lib')">Ouvrir la bibliothèque</button></div><div class="step"><span class="num">2</span><b>Ajoutez son air</b><span class="mut">Audio, vidéo ou lien YouTube.</span><button onclick="go('airs')">Ajouter un air</button></div><div class="step"><span class="num">3</span><b>Créez un programme</b><span class="mut">Choisissez les khassaïdes et les dates.</span><button onclick="newProg()">Créer un programme</button></div></div><p class="mut" style="margin-bottom:0">Vos données restent privées : elles sont enregistrées sur votre appareil.</p></div>`;
 function vHome(){const td=allSched().filter(e=>e.date==today());
- return `<div class="card row">${logoImg('logo')}<div><h1 style="margin:0">Bienvenue sur KY TEWLOU</h1><span class="mut">Lire, apprendre et répéter les khassaïdes de Serigne Touba.</span></div></div>
- ${(!S.k.length&&!S.p.length)?START:''}<h2>À réciter aujourd'hui</h2>${td.length?td.map(rowE).join(''):empty('Rien de prévu aujourd\'hui.',S.k.length?`<button onclick="newProg()">Créer un programme</button>`:`<button onclick="go('lib')">Ajouter un premier khassaïde</button>`)}`}
+ return `<div class="hero">${logoImg('logo')}<div><h1>Bienvenue sur Käy Tëwlü</h1><span class="mut">Lire, apprendre et répéter les khassaïdes de Serigne Touba.</span></div></div>
+ ${instCard()}${(!S.k.length&&!S.p.length)?START:''}<h2>À réciter aujourd'hui</h2>${td.length?'<div class="cgrid">'+td.map(rowE).join('')+'</div>':empty('Rien de prévu aujourd\'hui.',S.k.length?`<button onclick="newProg()">Créer un programme</button>`:`<button onclick="go('lib')">Ajouter un premier khassaïde</button>`)}`}
 function rowE(e){const r=sdone(e.id),st=r?r.st:'';const it=(S.p.find(p=>p.id==e.pid)||{items:[]}).items.find(i=>i.kid==e.kid);
- return `<div class="card ${st=='done'?'done':''}"><div class="row sp"><div class="grow"><b class="t">${esc(KN(e.kid))}</b><br><span class="mut">${esc(e.pn||'')}${e.time?' · '+esc(e.time):''}</span></div><div class="row">${it&&it.aid?`<button class="sec sm" onclick="playAir('${it.aid}','audio')">Écouter</button>`:''}
+ return `<div class="card ${st=='done'?'done':''}"><div class="kc"><div class="grow"><b class="t">${esc(KN(e.kid))}</b><br><span class="mut">${esc(e.pn||'')}${e.time?' · '+esc(e.time):''}</span></div><div class="acts">${it&&it.aid?`<button class="sec sm" onclick="playAir('${it.aid}','audio')">Écouter</button>`:''}
  <button class="sm ${st=='done'?'':'sec'}" onclick="mark('${e.id}','done')">${st=='done'?'Effectuée ✓':'Marquer effectuée'}</button><button class="sm sec" onclick="mark('${e.id}','partial')">${st=='partial'?'Partielle ✓':'Partielle'}</button></div></div></div>`}
 function mark(id,st){const i=S.s.findIndex(x=>x.sid==id);if(i>=0&&S.s[i].st==st)S.s.splice(i,1);else if(i>=0)S.s[i].st=st;else S.s.push({sid:id,st,at:new Date().toISOString()});save();render()}
 // ---------- BIBLIOTHEQUE
@@ -113,10 +157,10 @@ async function saveK(){try{const n=$('#kn').value.trim();if(!n)return flash('Sai
  k.name=n;k.aliases=k.aliases||[];k.desc=$('#kd').value.trim();k.status=$('#ks').value;save();ED=null;SHOW=false;MSG='Khassaïde enregistré.';render()}catch(e){flash(e.message||'Échec de l\'enregistrement.')}}
 function listK(){const q=norm(Q),l=S.k.filter(k=>!q||norm(k.name+' '+k.aliases.join(' ')).includes(q));
  if(!S.k.length)return empty('La bibliothèque est vide.','Cliquez sur « Ajouter un khassaïde PDF » pour commencer.');if(!l.length)return empty('Aucun résultat pour « '+esc(Q)+' ».');
- return l.map(k=>`<div class="card"><div class="row sp"><div class="grow"><h3>${esc(k.name)}</h3><span class="badge ${k.status=='published'?'':'w'}">${k.status=='published'?'Publié':'Brouillon'}</span> <span class="mut">${airsOf(k.id).length} air(s) · ajouté le ${fmt(k.added)}</span>${k.desc?`<p>${esc(k.desc)}</p>`:''}</div>
- <div class="row">${k.pdf?`<button class="sm" onclick="openPdf('${k.id}')">Lire le PDF</button>`:'<span class="badge w">Pas de PDF</span>'}${k.cat?'<span class="badge">Officiel · hors ligne</span>':`<button class="sm sec" onclick="ED='${k.id}';render();scrollTo(0,0)">Modifier</button><button class="sm bad" onclick="delK('${k.id}')">Supprimer</button>`}</div></div></div>`).join('')}
+ return l.map(k=>`<div class="card"><div class="kc"><div class="grow"><h3>${esc(k.name)}</h3><span class="badge ${k.status=='published'?'':'w'}">${k.status=='published'?'Publié':'Brouillon'}</span> <span class="mut">${airsOf(k.id).length} air(s) · ajouté le ${fmt(k.added)}</span>${k.cat?' <span class="badge">Officiel · hors ligne</span>':''}${k.desc?`<p>${esc(k.desc)}</p>`:''}</div>
+ <div class="acts">${k.pdf?`<button class="sm" onclick="openPdf('${k.id}')">Lire le PDF</button>`:'<span class="badge w">Pas de PDF</span>'}${k.cat?'':`<button class="sm sec" onclick="ED='${k.id}';render();scrollTo(0,0)">Modifier</button><button class="sm bad" onclick="delK('${k.id}')">Supprimer</button>`}</div></div></div>`).join('')}
 function vLib(){return `<div class="row sp"><h1>Bibliothèque des khassaïdes</h1>${ED||SHOW?'':`<button onclick="SHOW=true;render()">Ajouter un khassaïde PDF</button>`}</div>${ED||SHOW?kform():''}
- ${SB&&!IS_ADM?`<div class="row noprint" style="margin-bottom:.6rem"><button class="sm sec" onclick="syncCatalog(true)">Mettre à jour le contenu hors ligne</button></div>`:''}<label for="q">Rechercher par nom</label><input id="q" value="${esc(Q)}" oninput="Q=this.value;$('#list').innerHTML=listK()" placeholder="Nom du khassaïde"><div id="list" style="margin-top:.8rem">${listK()}</div>`}
+ ${SB&&!IS_ADM?`<div class="row noprint" style="margin-bottom:.6rem"><button class="sm sec" onclick="syncCatalog(true)">Mettre à jour le contenu hors ligne</button></div>`:''}<label for="q">Rechercher par nom</label><input id="q" value="${esc(Q)}" oninput="Q=this.value;$('#list').innerHTML=listK()" placeholder="Nom du khassaïde"><div id="list" class="cgrid" style="margin-top:.8rem">${listK()}</div>`}
 let PU='';
 function layoutPdf(){const f=$('#pdfp');if(!f||f.hidden)return;const p=$('#panel'),mob=matchMedia('(max-width:699px)').matches;f.style.bottom=((mob?58:0)+(p.hidden?0:p.offsetHeight))+'px'}
 function closePdf(){const f=$('#pdfp');if(!f)return;f.hidden=true;f.innerHTML='';if(PU)URL.revokeObjectURL(PU);PU='';layoutPdf()}
@@ -134,7 +178,7 @@ function vAirs(){const a=AE?A(AE):{};const kn=AE?KN(a.kid):AK;
  <div><label for="aau">Fichier audio ${a.audio?'(vide = conserver)':''}</label><input type="file" id="aau" accept="audio/*"></div><div><label for="avf">Fichier vidéo ${a.video?'(vide = conserver)':''}</label><input type="file" id="avf" accept="video/*"></div></div>
  <label for="ayt">Lien YouTube</label><input id="ayt" value="${esc(a.yt)}" placeholder="https://www.youtube.com/watch?v=..."><label for="ar">Nom du récitant (facultatif)</label><input id="ar" value="${esc(a.reciter)}"><label for="ad">Description (facultatif)</label><textarea id="ad" rows="2">${esc(a.desc)}</textarea>
  <div class="row" style="margin-top:.8rem"><button onclick="saveAir(false)">Enregistrer</button>${AE?'':'<button class="sec" onclick="saveAir(true)">Enregistrer et ajouter un autre air</button>'}<button class="sec" onclick="prevForm()">Prévisualiser</button><button class="sec" onclick="AE=null;AK='';render()">Annuler</button></div></div>`;
- const list=S.k.filter(k=>airsOf(k.id).length).map(k=>`<div class="card"><h3>${esc(k.name)}</h3>${airsOf(k.id).map(a=>`<div class="row sp" style="margin-bottom:.4rem"><span><b>${esc(a.name)}</b> <span class="badge">${{video:'Vidéo',audio:'Audio',both:'Audio + vidéo'}[a.type]}</span> <span class="mut">${esc(a.reciter||'')}</span></span><span class="row"><button class="sm" onclick="playAir('${a.id}')">Prévisualiser</button><button class="sm sec" onclick="chk('${a.id}')">Vérifier</button>${a.cat?'':`<button class="sm sec" onclick="AE='${a.id}';render();scrollTo(0,0)">Modifier</button><button class="sm bad" onclick="delAir('${a.id}')">Supprimer</button>`}</span></div>`).join('')}</div>`).join('');
+ const list=S.k.filter(k=>airsOf(k.id).length).map(k=>`<div class="card"><h3>${esc(k.name)}</h3>${airsOf(k.id).map(a=>`<div class="kc air"><span><b>${esc(a.name)}</b> <span class="badge">${{video:'Vidéo',audio:'Audio',both:'Audio + vidéo'}[a.type]}</span> <span class="mut">${esc(a.reciter||'')}</span></span><span class="acts"><button class="sm" onclick="playAir('${a.id}')">Prévisualiser</button><button class="sm sec" onclick="chk('${a.id}')">Vérifier</button>${a.cat?'':`<button class="sm sec" onclick="AE='${a.id}';render();scrollTo(0,0)">Modifier</button><button class="sm bad" onclick="delAir('${a.id}')">Supprimer</button>`}</span></div>`).join('')}</div>`).join('');
  return `<h1>Gestion des airs</h1>${form}<h2>Airs enregistrés</h2>${list||empty('Aucun air enregistré.','Utilisez le formulaire ci-dessus : le khassaïde et son air apparaîtront ensuite dans la bibliothèque et dans les programmes.')}`}
 function kinfo(){const k=S.k.find(x=>norm(x.name)==norm($('#akn').value));$('#ki').textContent=k?`Khassaïde existant : l'air sera ajouté à cette fiche (${k.pdf?'PDF déjà associé':'pas encore de PDF'}).`:($('#akn').value?'Nouveau khassaïde : une fiche sera créée.':'')}
 async function saveAir(another){try{const kn=$('#akn').value.trim(),an=$('#an').value.trim(),ty=$('#at').value,yt=$('#ayt').value.trim(),au=$('#aau').files[0],vf=$('#avf').files[0];const old=AE?A(AE):{};
@@ -170,8 +214,8 @@ function prevForm(){const au=$('#aau').files[0],vf=$('#avf').files[0],yt=$('#ayt
  panel(`<div class="row sp"><b>Aperçu avant enregistrement</b><button class="sm" onclick="closeP()">Fermer</button></div>${h}`)}
 // ---------- PROGRAMMES
 const PER={yearly:'Annuelle',monthly:'Mensuelle',weekly:'Hebdomadaire',daily:'Quotidienne',custom:'Personnalisée'},ST={draft:'Brouillon',active:'Actif',paused:'En pause',completed:'Terminé',archived:'Archivé'};
-function vProg(){return `<div class="row sp"><h1>Mes programmes</h1><button onclick="newProg()">Nouveau programme</button></div>`+(S.p.length?S.p.map(p=>`<div class="card"><div class="row sp"><div class="grow"><h3>${esc(p.name)}</h3><span class="badge">${ST[p.status]}</span> <span class="mut">${p.type=='dahira'?'Dahira'+(p.dahira?' : '+esc(p.dahira):''):'Individuel'} · ${p.items.length} khassaïde(s)</span></div><b>${prog(p)} %</b></div><div class="bar" style="margin:.5rem 0"><i style="width:${prog(p)}%"></i></div>
- <div class="row"><button class="sm" onclick="go('pdet','${p.id}')">Ouvrir</button><button class="sm sec" onclick="dup('${p.id}')">Dupliquer</button><button class="sm sec" onclick="setSt('${p.id}','${p.status=='archived'?'active':'archived'}')">${p.status=='archived'?'Désarchiver':'Archiver'}</button><button class="sm bad" onclick="delP('${p.id}')">Supprimer</button></div></div>`).join(''):empty('Aucun programme.','<button onclick="newProg()">Créer un programme</button>'))}
+function vProg(){return `<div class="row sp"><h1>Mes programmes</h1><button onclick="newProg()">Nouveau programme</button></div>`+(S.p.length?'<div class="cgrid">'+S.p.map(p=>`<div class="card"><div class="row sp"><div class="grow"><h3>${esc(p.name)}</h3><span class="badge">${ST[p.status]}</span> <span class="mut">${p.type=='dahira'?'Dahira'+(p.dahira?' : '+esc(p.dahira):''):'Individuel'} · ${p.items.length} khassaïde(s)</span></div><b>${prog(p)} %</b></div><div class="bar" style="margin:.5rem 0"><i style="width:${prog(p)}%"></i></div>
+ <div class="acts"><button class="sm" onclick="go('pdet','${p.id}')">Ouvrir</button><button class="sm sec" onclick="dup('${p.id}')">Dupliquer</button><button class="sm sec" onclick="setSt('${p.id}','${p.status=='archived'?'active':'archived'}')">${p.status=='archived'?'Désarchiver':'Archiver'}</button><button class="sm bad" onclick="delP('${p.id}')">Supprimer</button></div></div>`).join('')+'</div>':empty('Aucun programme.','<button onclick="newProg()">Créer un programme</button>'))}
 function setSt(id,s){S.p.find(p=>p.id==id).status=s;save();render()}
 function dup(id){const p=JSON.parse(JSON.stringify(S.p.find(x=>x.id==id)));p.id=uid();p.name+=' (copie)';p.status='draft';p.sched.forEach(e=>e.id=uid());S.p.push(p);save();MSG='Programme dupliqué en brouillon.';render()}
 function delP(id){if(!confirm('Supprimer ce programme ?'))return;S.p=S.p.filter(p=>p.id!=id);save();if(V=='pdet')go('prog');else render()}
@@ -212,16 +256,16 @@ function vDet(){const p=S.p.find(x=>x.id==PD);if(!p)return vProg();
  const calHtml=()=>{if(!p.sched.length)return empty('Aucun calendrier pour l\'instant.','Utilisez « Répartir automatiquement » : vous pourrez modifier la proposition avant de la valider.');const g={};p.sched.forEach(e=>(g[grp(p,e.date)]=g[grp(p,e.date)]||[]).push(e));
   return Object.entries(g).map(([t,l])=>`<div class="card"><h3>${esc(t)}</h3>${l.map(e=>`<div class="row sp ${isDone(e.id)?'done':''}" style="margin-bottom:.4rem"><span class="grow t">${esc(KN(e.kid))}</span><input type="date" style="width:160px" value="${e.date}" aria-label="Date" onchange="chDate('${p.id}','${e.id}',this.value)"><button class="sm ${isDone(e.id)?'':'sec'}" onclick="mark('${e.id}','done')">${isDone(e.id)?'Fait ✓':'Marquer fait'}</button></div>`).join('')}</div>`).join('')};
  const cards=p.items.map((it,i)=>{const a=it.aid&&A(it.aid),k=K(it.kid);return `<div class="card"><div class="row"><span class="num">${i+1}</span><div class="grow"><h3 style="margin:0">${esc(KN(it.kid))}</h3><span class="mut">Air : ${a?esc(a.name)+(a.reciter?' · '+esc(a.reciter):''):'<b>aucun air choisi</b>'}</span></div></div>
-  <div class="row noprint" style="margin:.5rem 0">${k&&k.pdf?`<button class="sm sec" onclick="openPdf('${k.id}')">Lire le document</button>`:'<span class="badge w">PDF non disponible</span>'}${a&&(a.audio)?`<button class="sm" onclick="playAir('${a.id}','audio')">Écouter</button>`:''}${a&&(a.video||a.yt)?`<button class="sm" onclick="playAir('${a.id}','video')">Regarder la vidéo</button>`:''}</div>
+  <div class="acts noprint" style="margin:.5rem 0">${k&&k.pdf?`<button class="sm sec" onclick="openPdf('${k.id}')">Lire le document</button>`:'<span class="badge w">PDF non disponible</span>'}${a&&(a.audio)?`<button class="sm" onclick="playAir('${a.id}','audio')">Écouter</button>`:''}${a&&(a.video||a.yt)?`<button class="sm" onclick="playAir('${a.id}','video')">Regarder la vidéo</button>`:''}</div>
   <div class="noprint">${itemRow2(p,i)}</div></div>`}).join('');
  const add=S.k.filter(k=>!p.items.some(i=>i.kid==k.id));
- return `<div class="pr">${logoImg('logo')}<h2 style="margin:0">KY TEWLOU</h2></div><button class="sec sm noprint" onclick="go('prog')">← Mes programmes</button><h1>Détail du programme</h1>
+ return `<div class="pr">${logoImg('logo')}<h2 style="margin:0">Käy Tëwlü</h2></div><button class="sec sm noprint" onclick="go('prog')">← Mes programmes</button><h1>Détail du programme</h1>
  <div class="card"><h2>${esc(p.name)}</h2><span class="badge">${ST[p.status]}</span><p>${p.type=='dahira'?'Dahira : '+esc(p.dahira||'—')+'<br>':''}${p.manager?'Responsable : '+esc(p.manager)+'<br>':''}Période : ${PER[p.period]} · du ${fmt(p.start)} au ${fmt(p.end)}<br>${p.items.length} khassaïde(s)${p.obj?' · objectif : '+p.obj+' répétition(s)':''}</p>${p.desc?`<p>${esc(p.desc)}</p>`:''}<div class="bar"><i style="width:${prog(p)}%"></i></div><b>${prog(p)} %</b> réalisé</div>
- <div class="row noprint" style="margin-bottom:1rem"><button class="sm sec" onclick="editP('${p.id}')">Modifier</button>${p.status=='draft'?`<button class="sm" onclick="setSt('${p.id}','active')">Activer</button>`:''}<button class="sm sec" onclick="dup('${p.id}')">Dupliquer</button><button class="sm sec" onclick="setSt('${p.id}','${p.status=='archived'?'active':'archived'}')">${p.status=='archived'?'Désarchiver':'Archiver'}</button><button class="sm sec" onclick="print()">Imprimer / exporter en PDF</button><button class="sm sec" onclick="share('${p.id}')">Partager</button><button class="sm bad" onclick="delP('${p.id}')">Supprimer</button></div><div id="ed"></div><div id="sh"></div>
+ <div class="acts noprint" style="margin-bottom:1rem"><button class="sm sec" onclick="editP('${p.id}')">Modifier</button>${p.status=='draft'?`<button class="sm" onclick="setSt('${p.id}','active')">Activer</button>`:''}<button class="sm sec" onclick="dup('${p.id}')">Dupliquer</button><button class="sm sec" onclick="setSt('${p.id}','${p.status=='archived'?'active':'archived'}')">${p.status=='archived'?'Désarchiver':'Archiver'}</button><button class="sm sec" onclick="print()">Imprimer / exporter en PDF</button><button class="sm sec" onclick="share('${p.id}')">Partager</button><button class="sm bad" onclick="delP('${p.id}')">Supprimer</button></div><div id="ed"></div><div id="sh"></div>
  <h2>Khassaïdes à réciter</h2>${cards||empty('Aucun khassaïde dans ce programme.')}
  <div class="card noprint"><label for="ad2">Ajouter un khassaïde</label><div class="row"><select id="ad2" class="grow"><option value="">Choisir…</option>${add.map(k=>`<option value="${k.id}">${esc(k.name)}</option>`).join('')}</select><button onclick="addTo('${p.id}')">Ajouter</button></div></div>
  <h2>Calendrier</h2><div class="row noprint" style="margin-bottom:.6rem"><button class="sm" onclick="auto('${p.id}')">Répartir automatiquement</button></div>${PROP?`<div class="card"><h3>Proposition</h3><p>${PROP.length} séance(s) du ${fmt(PROP[0].date)} au ${fmt(PROP[PROP.length-1].date)}. Appliquer remplace le calendrier actuel.</p><div class="row"><button class="sm" onclick="applyProp('${p.id}')">Appliquer</button><button class="sm sec" onclick="PROP=null;render()">Annuler</button></div></div>`:''}${calHtml()}`}
-function itemRow2(p,i){const it=p.items[i],l=airsOf(it.kid);return `<div class="row">${l.length?`<select style="width:auto" aria-label="Changer l'air" onchange="p_air('${p.id}',${i},this.value)"><option value="">Air non choisi</option>${l.map(a=>`<option value="${a.id}" ${it.aid==a.id?'selected':''}>${esc(a.name)}</option>`).join('')}</select>`:''}<button class="sm sec" onclick="p_mv('${p.id}',${i},-1)">↑</button><button class="sm sec" onclick="p_mv('${p.id}',${i},1)">↓</button><button class="sm bad" onclick="p_rm('${p.id}',${i})">Retirer</button></div>`}
+function itemRow2(p,i){const it=p.items[i],l=airsOf(it.kid);return `<div class="acts">${l.length?`<select style="width:auto" aria-label="Changer l'air" onchange="p_air('${p.id}',${i},this.value)"><option value="">Air non choisi</option>${l.map(a=>`<option value="${a.id}" ${it.aid==a.id?'selected':''}>${esc(a.name)}</option>`).join('')}</select>`:''}<button class="sm sec" onclick="p_mv('${p.id}',${i},-1)">↑</button><button class="sm sec" onclick="p_mv('${p.id}',${i},1)">↓</button><button class="sm bad" onclick="p_rm('${p.id}',${i})">Retirer</button></div>`}
 const PP=id=>S.p.find(p=>p.id==id);
 function p_air(id,i,v){PP(id).items[i].aid=v;save();render()}
 function p_mv(id,i,d){const a=PP(id).items,j=i+d;if(j<0||j>=a.length)return;[a[i],a[j]]=[a[j],a[i]];save();render()}
@@ -284,7 +328,7 @@ async function mfaStart(){
  const f=(data.totp||[]).find(x=>x.status=='verified');
  if(f){MF={id:f.id,enroll:false}}
  else{for(const u of (data.all||[]).filter(x=>x.status=='unverified'))await SB.auth.mfa.unenroll({factorId:u.id});
-  const r=await SB.auth.mfa.enroll({factorType:'totp',friendlyName:'KY TEWLOU '+Date.now()});if(r.error)return r.error.message;
+  const r=await SB.auth.mfa.enroll({factorType:'totp',friendlyName:'Käy Tëwlü '+Date.now()});if(r.error)return r.error.message;
   MF={id:r.data.id,enroll:true,qr:r.data.totp.qr_code,secret:r.data.totp.secret}}
  AMODE='mfa';return ''}
 async function doAuth(){
@@ -319,7 +363,7 @@ async function signOut(){
 function localMode(){UID='local';try{localStorage.setItem('kyt-guest','1')}catch(e){}loadS();openDB();AUTHED=true;V='home';render();setTimeout(syncCatalog,300)}
 function mfaHtml(){return `<h2>Code de confirmation</h2>${MF&&MF.enroll?`<p style="text-align:left">Première connexion : scannez ce code avec une application d'authentification (Google Authenticator, Microsoft Authenticator, Authy), puis saisissez le code à 6 chiffres affiché.</p><img id="qr" alt="QR code à scanner" style="width:200px;height:200px;background:#fff"><p class="mut" style="word-break:break-all;font-size:.85rem">Clé manuelle : ${esc(MF.secret)}</p>`:`<p>Saisissez le code à 6 chiffres de votre application d'authentification.</p>`}<input id="mc" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000" aria-label="Code à 6 chiffres" style="text-align:center;font-size:1.4rem;letter-spacing:.3em" onkeydown="if(event.key=='Enter')mfaVerify()"><br><br><button id="ab" style="width:100%;justify-content:center" onclick="mfaVerify()">Valider</button><p><button class="sm sec" onclick="signOut()">Annuler</button></p>`}
 function renderAuth(){
- $('#hd').innerHTML=logoImg()+'<b>KY TEWLOU</b>';$('#nav').innerHTML='';$('#lo').hidden=true;$('#fm').innerHTML='';
+ $('#hd').innerHTML=logoImg()+'<b>Käy Tëwlü</b>';$('#nav').innerHTML='';$('#lo').hidden=true;$('#su').hidden=true;$('#fm').innerHTML='';
  let body;
  if(!CONF)body=ADMIN_PATH?`<div class="note err">La connexion est indisponible (hors ligne ou service non chargé). Réessayez plus tard.</div>`:`<div class="note">La connexion est indisponible pour le moment. Vous pouvez utiliser l'application sans compte.</div><button style="width:100%;justify-content:center" onclick="localMode()">Utiliser sans compte</button>`;
  else if(AMODE=='mfa')body=mfaHtml();
@@ -328,7 +372,8 @@ function renderAuth(){
   body=`<h2>${ATAB=='admin'?'Espace administrateur':up?'Créer un compte':'Connexion'}</h2><div style="text-align:left"><label for="ae">Adresse e-mail</label><input id="ae" type="email" autocomplete="email" inputmode="email"><label for="ap">Mot de passe</label><input id="ap" type="password" autocomplete="${up?'new-password':'current-password'}" onkeydown="if(event.key=='Enter')doAuth()"></div><br>
   <button id="ab" style="width:100%;justify-content:center" onclick="doAuth()">${ATAB=='admin'?'Continuer':up?'Créer mon compte':'Se connecter'}</button>
   <p>${ATAB=='user'?`<button class="sm sec" onclick="AMODE='${up?'in':'up'}';renderAuth()">${up?'Déjà un compte ?':'Créer un compte'}</button> `:''}<button class="sm sec" onclick="resetPw()">Mot de passe oublié</button></p>${ATAB=='user'?`<hr style="border:0;border-top:1px solid var(--line);margin:1rem 0"><button class="sec" style="width:100%;justify-content:center" onclick="localMode()">Utiliser sans compte</button><p class="mut" style="font-size:.9rem">Vos données restent sur cet appareil.</p>`:''}`}
- $('#main').innerHTML=`<div class="card" style="max-width:440px;margin:1rem auto;text-align:center">${logoImg('logo big')}<h1 style="margin-top:.5rem">KY TEWLOU</h1><div id="am" class="note err" role="alert" hidden></div>${body}</div>`;
+ $('#main').innerHTML=`<div class="card" style="max-width:440px;margin:1rem auto;text-align:center">${logoImg('logo big')}<h1 style="margin-top:.5rem">Käy Tëwlü</h1><div id="am" class="note err" role="alert" hidden></div>${body}</div>`;
+ if(!ADMIN_PATH&&!isStandalone()&&AMODE!='mfa'&&AMODE!='reset')$('#main').insertAdjacentHTML('beforeend','<div style="max-width:440px;margin:0 auto;text-align:center"><button class="sec" onclick="installApp()">⬇ Installer l\'application</button></div>');
  if(AMODE=='mfa'&&MF&&MF.qr){const q=$('#qr');if(q)q.src=MF.qr}}
 async function syncStats(){
  if(!SB||!AUTHED||IS_ADM||UID=='local'||!navigator.onLine)return;
@@ -376,13 +421,31 @@ async function toggleSusp(id){
 
 // ---------- INSTALLATION (logo sur l'écran d'accueil)
 let DIP=null;
-const isStandalone=()=>matchMedia('(display-mode: standalone)').matches||navigator.standalone===true,isIOS=()=>/iphone|ipad|ipod/i.test(navigator.userAgent);
+const isStandalone=()=>matchMedia('(display-mode: standalone)').matches||navigator.standalone===true,isIOS=()=>/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform=='MacIntel'&&navigator.maxTouchPoints>1);
 function updInstall(){const b=$('#ins');if(b)b.hidden=isStandalone()}
 addEventListener('beforeinstallprompt',e=>{e.preventDefault();DIP=e;updInstall()});
-addEventListener('appinstalled',()=>{DIP=null;updInstall()});
+addEventListener('appinstalled',()=>{DIP=null;updInstall();if(AUTHED&&V=='home')render()});
 function installApp(){
  if(DIP){DIP.prompt();DIP.userChoice.finally(()=>{DIP=null;updInstall()});return}
- alert(isIOS()?'Sur iPhone : touchez le bouton Partager du navigateur, puis « Sur l\'écran d\'accueil ».':'Ouvrez le menu du navigateur (⋮ ou ⋯) puis choisissez « Installer l\'application » ou « Ajouter à l\'écran d\'accueil ».')}
+ const SHI='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/></svg>',
+ PLS='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M12 8v8M8 12h8"/></svg>',
+ st=(n,ico,t)=>`<div class="stp"><i>${n}</i><div class="grow">${t}</div><span class="ico">${ico}</span></div>`;
+ let h;
+ if(isIOS()){const safari=!/crios|fxios|edgios|opios|gsa\/|fban|fbav|instagram|line\/|whatsapp/i.test(navigator.userAgent);
+  h=`<h2>Installer Käy Tëwlü sur iPhone</h2>${safari?'':`<div class="note">Pour installer l'application, ouvrez ce site dans <b>Safari</b>.<br><button class="sm" style="margin-top:.5rem" onclick="copyLink(this)">Copier le lien</button></div>`}
+  ${st(1,SHI,'Touchez le bouton <b>Partager</b> en bas de Safari (ou <b>•••</b> puis <b>Partager</b>).')}
+  ${st(2,PLS,'Faites défiler et touchez <b>« Sur l\'écran d\'accueil »</b>.')}
+  ${st(3,'✓','Touchez <b>Ajouter</b> en haut à droite. L\'icône apparaît sur votre écran d\'accueil.')}`}
+ else h=`<h2>Installer Käy Tëwlü</h2>${st(1,'⋮','Ouvrez le menu du navigateur (<b>⋮</b> ou <b>⋯</b>).')}${st(2,PLS,'Choisissez <b>« Installer l\'application »</b> ou <b>« Ajouter à l\'écran d\'accueil »</b>.')}`;
+ sheet(h+`<div class="row" style="margin-top:1rem"><button class="grow" onclick="closeSheet()">Compris</button></div>`)}
+function sheet(h){let e=$('#ms');if(!e){e=document.createElement('div');e.id='ms';e.className='msheet';document.body.appendChild(e)}e.hidden=false;e.innerHTML=`<div class="msbg" onclick="closeSheet()"></div><div class="msb" role="dialog" aria-modal="true">${h}</div>`}
+function closeSheet(){const e=$('#ms');if(e){e.hidden=true;e.innerHTML=''}}
+addEventListener('keydown',e=>{if(e.key=='Escape')closeSheet()});
+async function copyLink(b){try{await navigator.clipboard.writeText(location.origin);b.textContent='Lien copié ✓'}catch(e){b.textContent=location.origin}}
+const instHidden=()=>{try{return localStorage.getItem('kyt-inst-hide')=='1'}catch(e){return false}};
+function hideInst(){try{localStorage.setItem('kyt-inst-hide','1')}catch(e){}render()}
+function instCard(){if(isStandalone()||instHidden())return '';return `<div class="card inst noprint"><div class="kc"><div class="grow"><b>Installez Käy Tëwlü sur votre écran d'accueil</b><br><span class="mut">Un accès en un geste, comme une vraie application.</span></div><div class="acts"><button onclick="installApp()">⬇ Installer l'application</button><button class="sec" onclick="hideInst()">Plus tard</button></div></div></div>`}
+async function goSignup(){await signOut();AMODE='up';renderAuth()}
 // ---------- CONTENU OFFICIEL : synchronisation vers l'appareil (hors ligne)
 const BK='catalog',pubUrl=p=>SB.storage.from(BK).getPublicUrl(p).data.publicUrl;
 let SYNCING=false;
