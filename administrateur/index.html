@@ -117,7 +117,7 @@ const sdone=id=>S.s.find(x=>x.sid==id),isDone=id=>(sdone(id)||{}).st=='done';
 const ytId=u=>{const m=String(u).match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([\w-]{11})/);return m&&m[1]};
 function flash(t){const f=$('#fm');if(f){f.innerHTML=t?`<div class="note err">${esc(t)}</div>`:'';if(t)scrollTo(0,0)}}
 const NAVS=[['home','Accueil','🏠','Accueil'],['lib','Bibliothèque','📚','Textes'],['airs','Gestion des airs','🎵','Airs'],['prog','Mes programmes','📅','Programmes'],['dah','Dahiras','👥','Dahiras']];
-function go(v,x){closePdf();V=v;PD=x||null;PROP=null;SHOW=false;ED=null;AF=false;AE=null;if(v!='pform')D=null;render();scrollTo(0,0)}
+function go(v,x){closePdf();V=v;PD=x||null;PROP=null;SHOW=false;ED=null;AF=false;CAF=false;CAE=null;AE=null;if(v!='pform')D=null;render();scrollTo(0,0)}
 let GLOGO="";try{GLOGO=localStorage.getItem("kyt-logo")||""}catch(e){}
 const logoImg=c=>`<img src="${GLOGO||TOUBA}" alt="Minaret de la mosquée de Touba" class="${c||'logo'}">`;
 function render(){
@@ -516,7 +516,7 @@ async function syncCatalog(manual){
    if(c.pdf_path&&(k.cpath!=c.pdf_path||!(await have(k.pdf)))){try{snote('Téléchargement : '+c.name+'…');await fput(id+'_pdf',await dl(c.pdf_path));k.pdf=id+'_pdf';k.cpath=c.pdf_path;changed=true;n++}catch(e){fail++}}}
   for(const c of ca){const id='c_'+c.id;let a=S.a.find(x=>x.id==id);
    if(!a){a={id,kid:'c_'+c.kid,cat:true};S.a.push(a);changed=true}
-   Object.assign(a,{kid:'c_'+c.kid,name:c.name,type:c.type,yt:c.yt||'',reciter:c.reciter||'',desc:c.descr||''});
+   Object.assign(a,{kid:'c_'+c.kid,name:c.name,type:c.type,yt:c.yt||'',reciter:c.reciter||'',desc:c.descr||''});if(c.video_path&&!a.thumb)a.thumb=pubUrl(c.id+'/thumb.jpg');a.at=a.at||String(c.created_at);
    for(const [path,key,f] of [[c.audio_path,id+'_au','audio'],[c.video_path,id+'_vi','video']]){
     if(path&&(a['c'+f]!=path||!(await have(a[f])))){try{snote('Téléchargement : '+c.name+'…');await fput(key,await dl(path));a[f]=key;a['c'+f]=path;changed=true;n++}catch(e){fail++}}}}
   if(changed)save();
@@ -540,7 +540,7 @@ const cHead=t=>!CAT.loaded?`<h1>${t}</h1><p class="mut">Chargement…</p>`:CAT.e
 // --- Khassaïdes
 function clistK(){const q=norm(CQ),l=CAT.k.filter(k=>!q||norm(k.name).includes(q));
  if(!CAT.k.length)return empty('Aucun khassaïde.','Ajoutez un ou plusieurs PDF ci-dessus : tous les utilisateurs les recevront et pourront les lire hors ligne.');if(!l.length)return empty('Aucun résultat.');
- return l.map(k=>`<div class="card"><div class="row sp"><div class="grow"><h3>${esc(k.name)}</h3><span class="mut">${k.pdf_path?'PDF : '+esc(k.pdf_name||'ok'):'<b>Pas de PDF</b>'} · ${CAT.a.filter(a=>a.kid==k.id).length} air(s)</span></div><button class="sm bad" onclick="cDelK('${k.id}')">Supprimer</button></div></div>`).join('')}
+ return l.map(k=>`<div class="card"><div class="row sp"><div class="grow"><h3>${esc(k.name)}</h3><span class="mut">${k.pdf_path?'PDF : '+esc(k.pdf_name||'ok'):'<b>Pas de PDF</b>'}</span></div><button class="sm bad" onclick="cDelK('${k.id}')">Supprimer</button></div></div>`).join('')}
 function vCat(){const h=cHead('Khassaïdes');if(h)return h;
  return `<h1>Khassaïdes</h1><p class="mut">Tout PDF ajouté ici est téléchargé sur l'appareil de chaque utilisateur et reste lisible sans connexion.</p>
  <div class="card"><h3>Ajouter un ou plusieurs PDF</h3><label for="ckf">Fichiers PDF (vous pouvez en choisir plusieurs)</label><input type="file" id="ckf" multiple accept="application/pdf,.pdf"><label for="ckn">Nom (facultatif, si un seul fichier)</label><input id="ckn" placeholder="Par défaut : le nom du fichier"><div class="row" style="margin-top:.6rem"><button id="ckb" onclick="cAddK()">Enregistrer</button></div></div>
@@ -558,18 +558,32 @@ async function cDelK(id){const k=CAT.k.find(x=>x.id==id);if(!k||!confirm('Suppri
  const {error}=await SB.from('catalog_k').delete().eq('id',id);if(error)return cnote(error.message);
  if(paths.length)await SB.storage.from(BK).remove(paths);await loadCat();cnote('Khassaïde supprimé.',true)}
 // --- Airs
-function clistA(){if(!CAT.a.length)return empty('Aucun air.','Ajoutez un air ci-dessus : il apparaîtra chez tous les utilisateurs.');
- return CAT.a.map(a=>{const k=CAT.k.find(x=>x.id==a.kid);return `<div class="card"><div class="row sp"><div class="grow"><b>${esc(a.name)}</b> <span class="badge">${{video:'Vidéo',audio:'Audio',both:'Audio + vidéo'}[a.type]||''}</span><br><span class="mut">${esc(k?k.name:'(khassaïde supprimé)')}${a.reciter?' · '+esc(a.reciter):''}${a.yt?' · YouTube':''}${a.audio_path||a.video_path?' · hors ligne ✓':''}</span></div><button class="sm bad" onclick="cDelA('${a.id}')">Supprimer</button></div></div>`}).join('')}
+let CAF=false,CAE=null;
+function cPlay(id){const a=CAT.a.find(x=>x.id==id);if(!a)return;const p=a.video_path||a.audio_path;if(p)window.open(pubUrl(p),'_blank','noopener');else if(a.yt)window.open(a.yt,'_blank','noopener')}
+function clistA(){if(!CAT.a.length)return empty('Aucun air.','Touchez « Ajouter un air depuis YouTube » : il apparaîtra chez tous les utilisateurs.');
+ return '<div class="vgrid">'+CAT.a.map(a=>{const k=CAT.k.find(x=>x.id==a.kid),off=a.audio_path||a.video_path,t=a.yt&&ytId(a.yt)?'https://i.ytimg.com/vi/'+ytId(a.yt)+'/mqdefault.jpg':(a.video_path?pubUrl(a.id+'/thumb.jpg'):'');
+  return `<div class="vc"><div class="vt" onclick="cPlay('${a.id}')" style="${t?`background-image:url('${esc(t)}')`:''}"><span class="pl">▶</span>${off?'<span class="bd" style="background:#0E5A43">Hors ligne</span>':'<span class="bd">YouTube</span>'}</div><b class="vn">${esc(a.name)}</b><span class="mut vm">${esc(k?k.name:'(khassaïde supprimé)')}${a.created_at?' · '+fmt(String(a.created_at).slice(0,10)):''}</span><div class="acts"><button class="sm sec" onclick="CAE='${a.id}';CAF=false;render();scrollTo(0,0)">Modifier</button><button class="sm bad" onclick="cDelA('${a.id}')">Suppr.</button></div></div>`}).join('')+'</div>'}
 function vCair(){const h=cHead('Airs');if(h)return h;
- if(!CAT.k.length)return `<h1>Airs</h1>${empty('Ajoutez d\'abord un khassaïde.','<button onclick="go(\'cat\')">Aller aux khassaïdes</button>')}`;
- return `<h1>Airs</h1><p class="mut">Un air ajouté ici (lien YouTube ou fichier) apparaît chez tous les utilisateurs. Les fichiers audio / vidéo restent disponibles sans connexion ; un lien YouTube demande une connexion.</p>
- <div class="card"><h3>Ajouter un air</h3><label for="cak">Khassaïde</label><select id="cak">${CAT.k.map(k=>`<option value="${k.id}">${esc(k.name)}</option>`).join('')}</select>
- <label for="cyt">Lien YouTube</label><div class="row"><input id="cyt" class="grow" placeholder="https://www.youtube.com/watch?v=..."><button type="button" class="sm" onclick="pasteYt('cyt')">Coller</button><button type="button" class="sm sec" onclick="window.open(YTU,'_blank','noopener')">Ouvrir YouTube</button></div>
- <div class="grid2"><div><label for="can">Nom de l'air (facultatif)</label><input id="can"></div><div><label for="car">Récitant (facultatif)</label><input id="car"></div><div><label for="cty">Type</label><select id="cty"><option value="auto">Automatique</option><option value="video">Vidéo</option><option value="audio">Audio</option><option value="both">Les deux</option></select></div></div>
- <div class="grid2"><div><label for="cau">Fichier audio (facultatif)</label><input type="file" id="cau" accept="audio/*"></div><div><label for="cvf">Fichier vidéo (facultatif)</label><input type="file" id="cvf" accept="video/*"></div></div>
- <label for="cad">Description (facultatif)</label><textarea id="cad" rows="2"></textarea><div class="row" style="margin-top:.6rem"><button id="cab" onclick="cAddA()">Enregistrer l'air</button></div></div>
- <h2>Airs en ligne (${CAT.a.length})</h2>${clistA()}`}
-async function cAddA(){const kid=$('#cak').value,k=CAT.k.find(x=>x.id==kid);let au=$('#cau').files[0],vf=$('#cvf').files[0],yt=$('#cyt').value.trim(),an=$('#can').value.trim();
+ if(!CAT.k.length)return `<h1>Gestion des airs</h1>${empty('Ajoutez d\'abord un khassaïde.','<button onclick="go(\'cat\')">Aller aux khassaïdes</button>')}`;
+ const e=CAE?(CAT.a.find(x=>x.id==CAE)||{}):{},open=CAF||CAE,ko=sel=>CAT.k.map(k=>`<option value="${k.id}" ${k.id==sel?'selected':''}>${esc(k.name)}</option>`).join('');
+ const form=open?`<div class="card"><h3>${CAE?'Modifier l\'air':'Nouvel air'}</h3>${CAE?'':'<div class="note">① Sur YouTube, copiez le lien de la vidéo.<br>② Revenez ici : il se colle tout seul, sinon touchez « Coller ».</div>'}
+ <label for="cyt">Lien YouTube</label><div class="row"><input id="cyt" class="grow" value="${esc(e.yt)}" placeholder="https://www.youtube.com/watch?v=..."><button type="button" class="sm" onclick="pasteYt('cyt')">Coller</button><button type="button" class="sm sec" onclick="window.open(YTU,'_blank','noopener')">Ouvrir YouTube</button></div>
+ <label for="cak">Khassaïde</label><select id="cak">${ko(e.kid)}</select><label for="can">Nom de l'air (facultatif)</label><input id="can" value="${esc(e.name)}">
+ ${CAE?'':'<label for="cvf">Fichier audio ou vidéo (pour l\'utiliser hors ligne)</label><input type="file" id="cvf" accept="video/*,audio/*"><input type="file" id="cau" hidden>'}
+ <details style="margin-top:.6rem"${CAE?' open':''}><summary>Autres options</summary><label for="car">Récitant</label><input id="car" value="${esc(e.reciter)}">${CAE?'':'<label for="cty">Type</label><select id="cty"><option value="auto">Automatique</option><option value="video">Vidéo</option><option value="audio">Audio</option><option value="both">Les deux</option></select>'}<label for="cad">Description</label><textarea id="cad" rows="2">${esc(e.descr)}</textarea></details>
+ <div class="row" style="margin-top:.8rem"><button id="cab" onclick="cAddA()">Enregistrer</button><button class="sec" onclick="CAF=false;CAE=null;render()">Annuler</button></div></div>`
+ :`<div class="card"><button class="bigadd" onclick="CAF=true;window.open(YTU,'_blank','noopener');render()">▶ Ajouter un air depuis YouTube</button><p class="mut">Ou importez plusieurs fichiers audio / vidéo d'un coup :</p><div class="row"><select id="cik" class="grow" aria-label="Khassaïde pour l'import">${ko('')}</select><button class="bigadd sec" style="width:auto" onclick="cImport()">📁 Importer des fichiers</button></div></div>`;
+ return `<h1>Gestion des airs</h1>${form}<h2>Airs en ligne (${CAT.a.length})</h2>${clistA()}`}
+async function upThumb(id,f){try{const d=await thumb(f);if(!d)return;await upF(id+'/thumb.jpg',await (await fetch(d)).blob(),'image/jpeg')}catch(e){}}
+function cImport(){const kid=$('#cik').value;if(!kid)return cnote('Choisissez le khassaïde.');const i=document.createElement('input');i.type='file';i.multiple=true;i.accept='video/*,audio/*';
+ i.onchange=async()=>{let ok=0;const bad=[],fs=[...i.files];for(const f of fs){const au=/^audio/.test(f.type),id=crypto.randomUUID(),p=id+'/'+(au?'audio.':'video.')+((/\.(\w{1,5})$/.exec(f.name)||[])[1]||'bin');
+  try{cnote(`Envoi ${ok+bad.length+1}/${fs.length} : ${f.name}…`,true);await upF(p,f);const row={id,kid,name:f.name.replace(/\.\w+$/,''),type:au?'audio':'video',yt:'',reciter:'',descr:''};row[au?'audio_path':'video_path']=p;if(au)row.audio_name=f.name;
+   const {error}=await SB.from('catalog_a').insert(row);if(error){await SB.storage.from(BK).remove([p]);throw error}if(!au)await upThumb(id,f);ok++}catch(e){bad.push(f.name+' — '+em(e))}}
+  await loadCat();cnote(ok+' air(s) ajouté(s).'+(bad.length?' Échec : '+bad.join(' ; '):''),!bad.length)};i.click()}
+async function cSaveA(){const a=CAT.a.find(x=>x.id==CAE);if(!a)return;const yt=$('#cyt').value.trim();if(yt&&!ytId(yt))return cnote('Ce lien YouTube n\'est pas valide.');cBusy('cab',true);
+ const {error}=await SB.from('catalog_a').update({kid:$('#cak').value,name:$('#can').value.trim()||a.name,yt,reciter:$('#car').value.trim(),descr:$('#cad').value.trim()}).eq('id',CAE);
+ if(error){cBusy('cab',false);return cnote(error.message)}CAE=null;await loadCat();cnote('Air modifié.',true)}
+async function cAddA(){if(CAE)return cSaveA();const kid=$('#cak').value,k=CAT.k.find(x=>x.id==kid);let au=$('#cau').files[0],vf=$('#cvf').files[0],yt=$('#cyt').value.trim(),an=$('#can').value.trim();
  if(vf&&/^audio/.test(vf.type)&&!au){au=vf;vf=null}
  if(!k)return cnote('Choisissez le khassaïde.');if(yt&&!ytId(yt))return cnote('Ce lien YouTube n\'est pas valide.');if(!au&&!vf&&!yt)return cnote('Ajoutez un lien YouTube ou un fichier audio / vidéo.');
  let ty=$('#cty').value;if(ty=='auto')ty=au&&(vf||yt)?'both':au?'audio':'video';if(!an)an=k.name;
@@ -578,7 +592,7 @@ async function cAddA(){const kid=$('#cak').value,k=CAT.k.find(x=>x.id==kid);let 
   if(au){cnote('Envoi de l\'audio…',true);row.audio_path=id+'/audio.'+ext(au);await upF(row.audio_path,au);up.push(row.audio_path);row.audio_name=au.name}
   if(vf&&ty!='audio'){cnote('Envoi de la vidéo…',true);row.video_path=id+'/video.'+ext(vf);await upF(row.video_path,vf);up.push(row.video_path)}
   const {error}=await SB.from('catalog_a').insert(row);if(error)throw error;
-  await loadCat();cnote('Air ajouté : il apparaît chez tous les utilisateurs.',true)}
+  if(vf&&ty!='audio')await upThumb(row.id,vf);CAF=false;await loadCat();cnote('Air ajouté : il apparaît chez tous les utilisateurs.',true)}
  catch(e){if(up.length)await SB.storage.from(BK).remove(up);cBusy('cab',false);cnote(em(e))}}
 async function cDelA(id){const a=CAT.a.find(x=>x.id==id);if(!a||!confirm('Supprimer l\'air « '+a.name+' » pour tous les utilisateurs ?'))return;
  const {error}=await SB.from('catalog_a').delete().eq('id',id);if(error)return cnote(error.message);
