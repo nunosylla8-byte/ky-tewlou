@@ -1,4 +1,4 @@
-const C='kyt-v6',SH='kyt-share';
+const C='kyt-v7',SH='kyt-share';
 const SHELL=['/','/manifest.webmanifest','/icon-192.png','/icon-512.png','/air-default.jpg','/mci-icon.jpg','/mci-bg.jpg','https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js','https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Source+Sans+3:wght@400;600;700&family=Montserrat:wght@500;600;700;800&display=swap'];
 // Installation tolérante : un fichier manquant n'empêche plus l'installation
 self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>Promise.all(SHELL.map(u=>fetch(new Request(u,{mode:u[0]=='/'?'same-origin':'no-cors'})).then(x=>c.put(u,x)).catch(()=>{})))).then(()=>self.skipWaiting()))});
@@ -9,6 +9,7 @@ async function share(r){try{const f=await r.formData(),c=await caches.open(SH);f
  return Response.redirect('/?'+new URLSearchParams({shared:'1',url:f.get('url')||'',text:f.get('text')||''}),303)}catch(e){return Response.redirect('/',303)}}
 self.addEventListener('fetch',e=>{const r=e.request,u=new URL(r.url);
  if(r.method==='POST'&&u.pathname==='/share-target'){e.respondWith(share(r));return}
- if(r.method!=='GET'||u.hostname.endsWith('supabase.co'))return;
+ // Les fichiers audio/vidéo (lecture par morceaux) ne passent pas par le cache : le navigateur les gère lui-même
+ if(r.method!=='GET'||u.hostname.endsWith('supabase.co')||r.headers.has('range')||/\.(mp3|m4a|aac|ogg|wav|mp4|webm)$/i.test(u.pathname))return;
  if(r.mode==='navigate'){e.respondWith(Promise.race([fetch(r),new Promise((_,j)=>setTimeout(j,4000))]).then(x=>{if(x.ok){const cp=x.clone();caches.open(C).then(c=>c.put('/',cp))}return x}).catch(()=>caches.match('/').then(m=>m||fetch(r))));return}
  e.respondWith(caches.match(r).then(m=>{const f=fetch(r).then(x=>{if(x&&(x.ok||x.type==='opaque')){const cp=x.clone();caches.open(C).then(c=>c.put(r,cp))}return x}).catch(()=>m);return m||f}))});

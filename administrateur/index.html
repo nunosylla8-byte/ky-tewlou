@@ -6,7 +6,7 @@
 <meta property="og:title" content="Käy Tëwlü"><meta property="og:description" content="Lire, apprendre et répéter les khassaïdes de Serigne Touba"><meta property="og:type" content="website"><meta property="og:image" content="/icon-512.png"><meta name="twitter:card" content="summary">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Käy Tëwlü">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Source+Sans+3:wght@400;600;700&family=Montserrat:wght@500;600;700;800&display=swap">
 <style>
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#F5F8F5;--card:#fff;--ink:#17231E;--mut:#5E6F67;--g:#0E5A43;--g2:#E1EFE8;--gold:#B8892B;--line:#D5E0DA;--bad:#B3261E}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1A16;--card:#17261F;--ink:#E8F0EB;--mut:#9DB0A6;--g:#4DBB92;--g2:#1F3A2F;--gold:#E0B04F;--line:#2B4137;--bad:#F2877F}}
@@ -89,6 +89,34 @@ header #ins{background:var(--gold);border-color:var(--gold);color:#1b1405;font-w
 .pw{position:relative}.pw input{padding-right:3.2rem}.pw .eye{position:absolute;right:2px;top:0;height:44px;width:46px;min-height:0;padding:0;background:transparent;border:0;color:var(--mut);justify-content:center}
 .vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.9rem}.vc{display:flex;flex-direction:column;gap:.2rem}.vt{position:relative;aspect-ratio:16/9;border-radius:8px;background:#1b2b25 center/cover no-repeat;cursor:pointer;display:flex;align-items:center;justify-content:center}.vt .pl{width:38px;height:38px;border-radius:50%;background:#0009;color:#fff;display:flex;align-items:center;justify-content:center}.vt .bd{position:absolute;right:4px;bottom:4px;background:#B3261E;color:#fff;font-size:.7rem;padding:0 .4rem;border-radius:4px}.vn{font-size:.95rem;line-height:1.25;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}.vm{font-size:.8rem}
 .bigadd{width:100%;justify-content:center;font-size:1.1rem;min-height:56px;font-weight:700}
+
+/* ---- Maîtres : icônes + page des paroles ---- */
+.figs{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:1rem;margin-bottom:1rem}
+button.fi{background:none;border:0;color:var(--ink);flex-direction:column;align-items:center;justify-content:flex-start;gap:.5rem;padding:.4rem;min-height:0;border-radius:12px}
+.fic{width:92px;height:92px;border-radius:50%;background:#000 center/cover no-repeat;border:3px solid var(--gold);box-shadow:0 3px 10px #0004;display:block}
+.fin{font-weight:700;font-size:.85rem;text-align:center;line-height:1.2;text-transform:uppercase;letter-spacing:.02em}
+button.fi:active .fic{transform:scale(.96)}
+#figv{position:fixed;inset:0;z-index:70;background:#000;color:#fff;display:flex;flex-direction:column;font-family:Montserrat,"Source Sans 3",system-ui,sans-serif}
+#figv[hidden]{display:none!important}
+#figv .fbg{position:absolute;inset:0;background:#111 center top/cover no-repeat;filter:grayscale(1)}
+#figv .fbg:after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.5)}
+#figv .fbar{position:relative;z-index:1;flex:none;display:flex;align-items:center;justify-content:space-between;gap:.8rem;background:#000;padding:calc(10px + env(safe-area-inset-top,0px)) 16px 10px}
+#figv .fbar h1{font:600 1.02rem Montserrat,sans-serif;text-transform:uppercase;letter-spacing:.02em;margin:0;text-align:center;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#fff}
+#figv .fb{flex:none;width:46px;height:46px;min-height:0;padding:0;border-radius:50%;background:#F7931E;border:0;color:#fff;justify-content:center;display:flex;align-items:center}
+#figv .fb svg{width:24px;height:24px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+#figv .fb.off{background:#7a4a10}
+#figv .fbody{position:relative;z-index:1;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 16px calc(40px + env(safe-area-inset-bottom,0px))}
+#figv .fin2{max-width:720px;margin:0 auto}
+#figv .fq{position:relative;background:rgba(22,31,52,.9);border:1px solid rgba(255,255,255,.05);border-radius:22px;padding:18px 20px 22px;margin-bottom:16px;overflow:hidden}
+#figv .fq .fm{position:absolute;right:16px;top:6px;font:800 6.2rem/1 Georgia,serif;color:rgba(247,147,30,.32);pointer-events:none;user-select:none}
+#figv .ft{display:inline-block;background:#F7931E;color:#fff;font:700 .72rem Montserrat,sans-serif;letter-spacing:.08em;text-transform:uppercase;padding:.38rem .95rem;border-radius:99px;margin-bottom:14px}
+#figv .fq p{position:relative;margin:0;font:600 clamp(1.08rem,4.5vw,1.4rem)/1.55 Montserrat,"Source Sans 3",sans-serif;color:#fff;white-space:pre-line;overflow-wrap:anywhere}
+#figv .fmsg{position:absolute;z-index:3;left:50%;transform:translateX(-50%);top:calc(74px + env(safe-area-inset-top,0px));width:max-content;max-width:calc(100% - 32px);background:#F7931E;color:#fff;font:600 .85rem Montserrat,sans-serif;padding:.55rem .9rem;border-radius:12px;box-shadow:0 4px 14px #0008;text-align:center}
+#figv .fe{text-align:center;color:#ddd;padding:2rem 1rem;border:2px dashed #ffffff55;border-radius:18px;background:#0008}
+/* admin : paroles */
+.fqa{display:flex;gap:.6rem;align-items:flex-start}.fqa .grow{min-width:0}.fqa p{margin:.3rem 0 0;white-space:pre-line;overflow-wrap:anywhere}
+.ftag{display:inline-block;background:#F7931E;color:#fff;font-weight:700;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;padding:.15rem .7rem;border-radius:99px}
+.fhd{display:flex;align-items:center;gap:1rem}.fhd .fic{width:64px;height:64px;flex:none}
 </style></head><body>
 <header><div class="row" id="hd"></div><div class="hb"><button class="sm" id="ins" onclick="installApp()" aria-label="Installer l'application" hidden><span aria-hidden="true">⬇</span><span class="hl">&nbsp;Installer</span></button><button class="sm" id="su" onclick="goSignup()" hidden>S'inscrire</button><button class="sm" id="lo" onclick="signOut()" hidden>Sortir</button><button class="sm ib" onclick="theme()" aria-label="Changer de thème">🌓</button></div></header>
 <nav id="nav"></nav><main><div id="fm" role="status"></div><div id="main"></div></main><div id="pdfp" hidden></div><div id="panel" hidden></div>
@@ -116,8 +144,8 @@ const K=id=>S.k.find(x=>x.id==id),KN=id=>(K(id)||{name:'(supprimé)'}).name,A=id
 const sdone=id=>S.s.find(x=>x.sid==id),isDone=id=>(sdone(id)||{}).st=='done';
 const ytId=u=>{const m=String(u).match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([\w-]{11})/);return m&&m[1]};
 function flash(t){const f=$('#fm');if(f){f.innerHTML=t?`<div class="note err">${esc(t)}</div>`:'';if(t)scrollTo(0,0)}}
-const NAVS=[['home','Accueil','🏠','Accueil'],['lib','Bibliothèque','📚','Textes'],['airs','Gestion des airs','🎵','Airs'],['prog','Mes programmes','📅','Programmes'],['dah','Dahiras','👥','Dahiras']];
-function go(v,x){closePdf();V=v;PD=x||null;PROP=null;SHOW=false;ED=null;AF=false;CAF=false;CAE=null;AE=null;if(v!='pform')D=null;render();scrollTo(0,0)}
+const NAVS=[['home','Accueil','🏠','Accueil'],['lib','Bibliothèque','📚','Textes'],['airs','Gestion des airs','🎵','Airs'],['prog','Mes programmes','📅','Programmes'],['dah','Dahiras','👥','Dahiras'],['fig','Ah Doom','🕌','Ah Doom']];
+function go(v,x){closePdf();closeFig();FAUTO=false;CFS=null;CFE=null;CQE=null;V=v;PD=x||null;PROP=null;SHOW=false;ED=null;AF=false;CAF=false;CAE=null;AE=null;if(v!='pform')D=null;render();scrollTo(0,0)}
 let GLOGO="";try{GLOGO=localStorage.getItem("kyt-logo")||""}catch(e){}
 const logoImg=c=>`<img src="${GLOGO||TOUBA}" alt="Minaret de la mosquée de Touba" class="${c||'logo'}">`;
 function render(){
@@ -126,11 +154,13 @@ function render(){
  $('#hd').innerHTML=logoImg()+'<b>Käy Tëwlü</b>';
  $('#nav').innerHTML=(IS_ADM?ANAVS:NAVS).map(n=>`<button class="${V==n[0]||(V=='pform'||V=='pdet'||V=='recap')&&n[0]=='prog'?'on':''}" onclick="go('${n[0]}')" aria-label="${n[1]}"><span class="ic" aria-hidden="true">${n[2]}</span><span class="lg">${n[1]}</span><span class="sh">${n[3]}</span></button>`).join('');
  $('#fm').innerHTML=MSG?`<div class="note" role="status">${esc(MSG)}</div>`:'';MSG='';
- $('#main').innerHTML=({home:vHome,lib:vLib,airs:vAirs,prog:vProg,pform:vForm,recap:vRecap,pdet:vDet,dah:vDah,set:vSet,adm:vAdm,usr:vUsr,cat:vCat,cair:vCair}[V])();
+ $('#main').innerHTML=({home:vHome,lib:vLib,airs:vAirs,prog:vProg,pform:vForm,recap:vRecap,pdet:vDet,dah:vDah,set:vSet,adm:vAdm,usr:vUsr,cat:vCat,cair:vCair,fig:vFig,cfig:vCfig}[V])();
  if(V=='pform')afterForm();
  if(V=='airs')afterAirs();
  if(IS_ADM&&!ADM.loaded)loadAdm();
  if(IS_ADM&&(V=='cat'||V=='cair')&&!CAT.loaded)loadCat();
+ if(IS_ADM&&V=='cfig'&&!FA.loaded)loadFigAdm();
+ if(!IS_ADM&&!FG.tried)loadFig();
  updInstall();
 }
 const empty=(t,b)=>`<div class="empty">${t}${b?'<br><br>'+b:''}</div>`;
@@ -143,7 +173,7 @@ function prog(p){return p.sched.length?Math.round(p.sched.filter(e=>isDone(e.id)
 const START=`<div class="card"><h2>Pour commencer</h2><div class="steps"><div class="step"><span class="num">1</span><b>Ajoutez un khassaïde</b><span class="mut">Importez son PDF dans la bibliothèque.</span><button onclick="go('lib')">Ouvrir la bibliothèque</button></div><div class="step"><span class="num">2</span><b>Ajoutez son air</b><span class="mut">Audio, vidéo ou lien YouTube.</span><button onclick="go('airs')">Ajouter un air</button></div><div class="step"><span class="num">3</span><b>Créez un programme</b><span class="mut">Choisissez les khassaïdes et les dates.</span><button onclick="newProg()">Créer un programme</button></div></div><p class="mut" style="margin-bottom:0">Vos données restent privées : elles sont enregistrées sur votre appareil.</p></div>`;
 function vHome(){const td=allSched().filter(e=>e.date==today());
  return `<div class="hero">${logoImg('logo')}<div><h1>Bienvenue sur Käy Tëwlü</h1><span class="mut">Lire, apprendre et répéter les khassaïdes de Serigne Touba.</span></div></div>
- ${instCard()}${(!S.k.length&&!S.p.length)?START:''}<h2>À réciter aujourd'hui</h2>${td.length?'<div class="cgrid">'+td.map(rowE).join('')+'</div>':empty('Rien de prévu aujourd\'hui.',S.k.length?`<button onclick="newProg()">Créer un programme</button>`:`<button onclick="go('lib')">Ajouter un premier khassaïde</button>`)}`}
+ ${instCard()}${figHome()}${(!S.k.length&&!S.p.length)?START:''}<h2>À réciter aujourd'hui</h2>${td.length?'<div class="cgrid">'+td.map(rowE).join('')+'</div>':empty('Rien de prévu aujourd\'hui.',S.k.length?`<button onclick="newProg()">Créer un programme</button>`:`<button onclick="go('lib')">Ajouter un premier khassaïde</button>`)}`}
 function rowE(e){const r=sdone(e.id),st=r?r.st:'';const it=(S.p.find(p=>p.id==e.pid)||{items:[]}).items.find(i=>i.kid==e.kid);
  return `<div class="card ${st=='done'?'done':''}"><div class="kc"><div class="grow"><b class="t">${esc(KN(e.kid))}</b><br><span class="mut">${esc(e.pn||'')}${e.time?' · '+esc(e.time):''}</span></div><div class="acts">${it&&it.aid?`<button class="sec sm" onclick="playAir('${it.aid}','audio')">Écouter</button>`:''}
  <button class="sm ${st=='done'?'':'sec'}" onclick="mark('${e.id}','done')">${st=='done'?'Effectuée ✓':'Marquer effectuée'}</button><button class="sm sec" onclick="mark('${e.id}','partial')">${st=='partial'?'Partielle ✓':'Partielle'}</button></div></div></div>`}
@@ -185,6 +215,18 @@ function importFiles(){const i=document.createElement('input');i.type='file';i.m
   if(!k){k={id:uid(),name:'Airs téléchargés',aliases:[],desc:'',status:'published',added:today()};S.k.push(k)}
   let n=0;for(const f of fs){try{snote(`Import ${n+1}/${fs.length} : ${f.name}…`);const au=/^audio/.test(f.type),key=await store(f),a={id:uid(),kid:k.id,name:f.name.replace(/\.\w+$/,''),type:au?'audio':'video',yt:'',reciter:'',desc:'',at:new Date().toISOString(),size:f.size};a[au?'audio':'video']=key;if(!au)a.thumb=await thumb(f);S.a.push(a);n++}catch(e){flash(e.message)}}
   save();MSG=n+' air(s) importé(s) : disponibles sans connexion. Touchez « Modifier » pour les rattacher à un khassaïde.';render()};i.click()}
+// ---- Airs : image par défaut + recherche
+const AIRIMG='/air-default.jpg';let AQ='';
+function airBg(t){return t?`background-image:url('${esc(t)}'),url('${AIRIMG}');background-position:center,center 12%`:`background-image:url('${AIRIMG}');background-position:center 12%`}
+const nz=x=>String(x||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+function airsFiltered(){const q=nz(AQ).split(/\s+/).filter(Boolean);if(!q.length)return S.a;
+ return S.a.filter(a=>{const k=K(a.kid)||{},h=nz([a.name,KN(a.kid),(k.aliases||[]).join(' '),a.reciter,a.desc].join(' '));return q.every(w=>h.includes(w))})}
+function airCount(){const n=airsFiltered().length;return n==S.a.length?'('+n+')':'('+n+' sur '+S.a.length+')'}
+function airSearch(){return `<div class="row" style="margin-bottom:.8rem"><input type="search" id="aq" class="grow" value="${esc(AQ)}" placeholder="🔍 Rechercher un air, un khassaïde, un récitant…" aria-label="Rechercher un air" autocomplete="off" oninput="searchAirs(this.value)"></div>`}
+function searchAirs(v){AQ=v;const l=$('#alist'),c=$('#acount');if(l)l.innerHTML=airGrid(airsFiltered());if(c)c.textContent=airCount()}
+function airGrid(l){if(!l.length)return empty('Aucun air trouvé.','Essayez un autre mot, ou effacez la recherche.');
+ const tb=a=>a.thumb||(a.yt&&ytId(a.yt)?'https://i.ytimg.com/vi/'+ytId(a.yt)+'/mqdefault.jpg':'');
+ return '<div class="vgrid">'+l.map(a=>{const off=!!(a.audio||a.video),t=tb(a);return `<div class="vc"><div class="vt" onclick="playAir('${a.id}')" style="${airBg(t)}"><span class="pl">▶</span>${off?'':'<span class="bd">YouTube</span>'}</div><b class="vn">${esc(a.name)}</b><span class="mut vm">${esc(KN(a.kid))}${a.at?' · '+fmt(a.at.slice(0,10)):''}${a.size?' · '+(a.size/1048576).toFixed(1).replace('.',',')+' Mo':''}</span><div class="acts">${off?'':`<button class="sm sec" onclick="attachFile('${a.id}')">+ Fichier</button>`}${a.cat?'':`<button class="sm sec" onclick="AE='${a.id}';render();scrollTo(0,0)">Modifier</button><button class="sm bad" onclick="delAir('${a.id}')">Suppr.</button>`}</div></div>`}).join('')+'</div>'}
 function vAirs(){const a=AE?A(AE):{},kn=AE?KN(a.kid):AK,open=AF||AE;
  const form=open?`<div class="card"><h3>${AE?'Modifier l\'air':'Nouvel air'}</h3>
  ${AE?'':`<div class="note">① Sur YouTube, ouvrez la vidéo puis copiez son lien (Partager → Copier le lien).<br>② Revenez ici : le lien se colle tout seul, sinon touchez « Coller ».</div>`}
@@ -194,9 +236,8 @@ function vAirs(){const a=AE?A(AE):{},kn=AE?KN(a.kid):AK,open=AF||AE;
  <label for="avf">Vidéo ou audio téléchargé (pour l'utiliser sans connexion)</label><input type="file" id="avf" accept="video/*,audio/*"><input type="file" id="aau" hidden>
  <details style="margin-top:.6rem"><summary>Autres options</summary><label for="at">Type de média</label><select id="at">${[['auto','Automatique'],['video','Vidéo'],['audio','Audio'],['both','Les deux']].map(o=>`<option value="${o[0]}" ${(a.type||'auto')==o[0]?'selected':''}>${o[1]}</option>`).join('')}</select><label for="akf">PDF du khassaïde (si besoin)</label><input type="file" id="akf" accept="application/pdf,.pdf"><label for="ar">Récitant</label><input id="ar" value="${esc(a.reciter)}"><label for="ad">Description</label><textarea id="ad" rows="2">${esc(a.desc)}</textarea></details>
  <div class="row" style="margin-top:.8rem"><button onclick="saveAir(false)">Enregistrer</button>${AE?'':'<button class="sec" onclick="saveAir(true)">Enregistrer et ajouter un autre</button>'}<button class="sec" onclick="AE=null;AK='';AF=false;render()">Annuler</button></div></div>`:'';
- const tb=a=>a.thumb||(a.yt&&ytId(a.yt)?'https://i.ytimg.com/vi/'+ytId(a.yt)+'/mqdefault.jpg':'');
- const list=S.a.length?'<div class="vgrid">'+S.a.map(a=>{const off=!!(a.audio||a.video),t=tb(a);return `<div class="vc"><div class="vt" onclick="playAir('${a.id}')" style="${t?`background-image:url('${esc(t)}')`:''}"><span class="pl">▶</span>${off?'':'<span class="bd">YouTube</span>'}</div><b class="vn">${esc(a.name)}</b><span class="mut vm">${esc(KN(a.kid))}${a.at?' · '+fmt(a.at.slice(0,10)):''}${a.size?' · '+(a.size/1048576).toFixed(1).replace('.',',')+' Mo':''}</span><div class="acts">${off?'':`<button class="sm sec" onclick="attachFile('${a.id}')">+ Fichier</button>`}${a.cat?'':`<button class="sm sec" onclick="AE='${a.id}';render();scrollTo(0,0)">Modifier</button><button class="sm bad" onclick="delAir('${a.id}')">Suppr.</button>`}</div></div>`}).join('')+'</div>':'';
- return `<h1>Gestion des airs</h1>${open?'':`<div class="card"><button class="bigadd" onclick="addAir()">▶ Ajouter un air depuis YouTube</button><p class="mut">Téléchargez ensuite la vidéo avec votre application de téléchargement, puis importez-la ici.</p><button class="bigadd sec" onclick="importFiles()">📁 Importer mes vidéos téléchargées</button></div>`}${form}<h2>Mes airs (${S.a.length})</h2>${list||empty('Aucun air enregistré.','Importez vos vidéos ou ajoutez un lien YouTube.')}`}
+ const list=S.a.length?airSearch()+'<div id="alist">'+airGrid(airsFiltered())+'</div>':'';
+ return `<h1>Gestion des airs</h1>${open?'':`<div class="card"><button class="bigadd" onclick="addAir()">▶ Ajouter un air depuis YouTube</button><p class="mut">Téléchargez ensuite la vidéo avec votre application de téléchargement, puis importez-la ici.</p><button class="bigadd sec" onclick="importFiles()">📁 Importer mes vidéos téléchargées</button></div>`}${form}<h2>Mes airs <span id="acount">${airCount()}</span></h2>${list||empty('Aucun air enregistré.','Importez vos vidéos ou ajoutez un lien YouTube.')}`}
 async function pasteYt(id){try{const t=await navigator.clipboard.readText();if(!ytId(t))return flash('Aucun lien YouTube copié. Copiez d\'abord le lien de la vidéo.');$('#'+id).value=t.trim();flash('')}catch(e){flash('Collez le lien dans le champ (accès au presse-papiers refusé).')}}
 function setF(id,f){try{const d=new DataTransfer();d.items.add(f);$('#'+id).files=d.files}catch(e){}}
 function afterAirs(){if(!(AF||AE))return;const y=$('#ayt');if(y&&AY&&!y.value)y.value=AY;AY='';if(SHF.length){setF('avf',SHF[0]);SHF=[]}}
@@ -329,7 +370,7 @@ async function loadLogo(){try{const {data}=await SB.from('app_settings').select(
 const CFG={url:'https://alpcjvxzvtiygzlobvan.supabase.co',key:'sb_publishable_Ob0KRXAb9mno0hoBKqJIlQ_2F_ktcvO'};
 const CONF=!/COLLE_ICI/.test(CFG.url+CFG.key)&&!!window.supabase;
 const GUEST=()=>{try{return localStorage.getItem('kyt-guest')=='1'}catch(e){return false}};
-const ANAVS=[['adm','Tableau de bord','📊','Tableau'],['usr','Utilisateurs','👥','Utilisateurs'],['cat','Khassaïdes','📖','Khassaïdes'],['cair','Airs','🎵','Airs'],['set','Réglages','⚙️','Réglages']];
+const ANAVS=[['adm','Tableau de bord','📊','Tableau'],['usr','Utilisateurs','👥','Utilisateurs'],['cat','Khassaïdes','📖','Khassaïdes'],['cair','Airs','🎵','Airs'],['cfig','Ah Doom','💬','Ah Doom'],['set','Réglages','⚙️','Réglages']];
 const ADMIN_PATH=/^\/administrateur\/?$/i.test(location.pathname);
 let AUTHED=false,IS_ADM=false,SB=null,ATAB=ADMIN_PATH?'admin':'user',AMODE='in',MF=null,ADM={loaded:false},UQ='',APER='jour';
 const amsg=(t,ok)=>{const e=$('#am');if(e){e.className='note'+(ok?'':' err');e.textContent=t;e.hidden=!t}};
@@ -404,7 +445,7 @@ async function doReset(){
 async function signOut(){
  try{if(SB)await SB.auth.signOut()}catch(e){}
  try{localStorage.removeItem('kyt-guest');localStorage.removeItem('kyt-lastuser')}catch(e){}
- AUTHED=false;IS_ADM=false;UID='local';S={...DEF};AMODE='in';MF=null;ADM={loaded:false};V='home';closeP();closePdf();renderAuth()}
+ AUTHED=false;IS_ADM=false;UID='local';S={...DEF};AMODE='in';MF=null;ADM={loaded:false};V='home';closeP();closePdf();closeFig();renderAuth()}
 function localMode(){UID='local';try{localStorage.setItem('kyt-guest','1')}catch(e){}loadS();openDB();AUTHED=true;V='home';render();setTimeout(syncCatalog,300)}
 function mfaHtml(){return `<h2>Code de confirmation</h2>${MF&&MF.enroll?`<p style="text-align:left">Première connexion : scannez ce code avec une application d'authentification (Google Authenticator, Microsoft Authenticator, Authy), puis saisissez le code à 6 chiffres affiché.</p><img id="qr" alt="QR code à scanner" style="width:200px;height:200px;background:#fff"><p class="mut" style="word-break:break-all;font-size:.85rem">Clé manuelle : ${esc(MF.secret)}</p>`:`<p>Saisissez le code à 6 chiffres de votre application d'authentification.</p>`}<input id="mc" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000" aria-label="Code à 6 chiffres" style="text-align:center;font-size:1.4rem;letter-spacing:.3em" onkeydown="if(event.key=='Enter')mfaVerify()"><br><br><button id="ab" style="width:100%;justify-content:center" onclick="mfaVerify()">Valider</button><p><button class="sm sec" onclick="signOut()">Annuler</button></p>`}
 function renderAuth(){
@@ -562,7 +603,7 @@ let CAF=false,CAE=null;
 function cPlay(id){const a=CAT.a.find(x=>x.id==id);if(!a)return;const p=a.video_path||a.audio_path;if(p)window.open(pubUrl(p),'_blank','noopener');else if(a.yt)window.open(a.yt,'_blank','noopener')}
 function clistA(){if(!CAT.a.length)return empty('Aucun air.','Touchez « Ajouter un air depuis YouTube » : il apparaîtra chez tous les utilisateurs.');
  return '<div class="vgrid">'+CAT.a.map(a=>{const k=CAT.k.find(x=>x.id==a.kid),off=a.audio_path||a.video_path,t=a.yt&&ytId(a.yt)?'https://i.ytimg.com/vi/'+ytId(a.yt)+'/mqdefault.jpg':(a.video_path?pubUrl(a.id+'/thumb.jpg'):'');
-  return `<div class="vc"><div class="vt" onclick="cPlay('${a.id}')" style="${t?`background-image:url('${esc(t)}')`:''}"><span class="pl">▶</span>${off?'<span class="bd" style="background:#0E5A43">Hors ligne</span>':'<span class="bd">YouTube</span>'}</div><b class="vn">${esc(a.name)}</b><span class="mut vm">${esc(k?k.name:'(khassaïde supprimé)')}${a.created_at?' · '+fmt(String(a.created_at).slice(0,10)):''}</span><div class="acts"><button class="sm sec" onclick="CAE='${a.id}';CAF=false;render();scrollTo(0,0)">Modifier</button><button class="sm bad" onclick="cDelA('${a.id}')">Suppr.</button></div></div>`}).join('')+'</div>'}
+  return `<div class="vc"><div class="vt" onclick="cPlay('${a.id}')" style="${airBg(t)}"><span class="pl">▶</span>${off?'<span class="bd" style="background:#0E5A43">Hors ligne</span>':'<span class="bd">YouTube</span>'}</div><b class="vn">${esc(a.name)}</b><span class="mut vm">${esc(k?k.name:'(khassaïde supprimé)')}${a.created_at?' · '+fmt(String(a.created_at).slice(0,10)):''}</span><div class="acts"><button class="sm sec" onclick="CAE='${a.id}';CAF=false;render();scrollTo(0,0)">Modifier</button><button class="sm bad" onclick="cDelA('${a.id}')">Suppr.</button></div></div>`}).join('')+'</div>'}
 function vCair(){const h=cHead('Airs');if(h)return h;
  if(!CAT.k.length)return `<h1>Gestion des airs</h1>${empty('Ajoutez d\'abord un khassaïde.','<button onclick="go(\'cat\')">Aller aux khassaïdes</button>')}`;
  const e=CAE?(CAT.a.find(x=>x.id==CAE)||{}):{},open=CAF||CAE,ko=sel=>CAT.k.map(k=>`<option value="${k.id}" ${k.id==sel?'selected':''}>${esc(k.name)}</option>`).join('');
@@ -597,6 +638,121 @@ async function cAddA(){if(CAE)return cSaveA();const kid=$('#cak').value,k=CAT.k.
 async function cDelA(id){const a=CAT.a.find(x=>x.id==id);if(!a||!confirm('Supprimer l\'air « '+a.name+' » pour tous les utilisateurs ?'))return;
  const {error}=await SB.from('catalog_a').delete().eq('id',id);if(error)return cnote(error.message);
  await SB.storage.from(BK).remove([a.audio_path,a.video_path].filter(Boolean));await loadCat();cnote('Air supprimé.',true)}
+
+// ---------- LES MAÎTRES (paroles + son)
+const FKEY='kyt-fig';
+let FG={tried:false,f:[],q:[]},FO=null,FAUD=null,FPOP=false,FRES=false;
+try{const j=JSON.parse(localStorage.getItem(FKEY)||'null');if(j&&j.f){FG.f=j.f;FG.q=j.q||[]}}catch(e){}
+function fres(p){if(!p)return '';if(/^(\/|https?:|data:)/.test(p))return p;try{return pubUrl(p)}catch(e){return ''}}
+// Valeurs par défaut de la partie « Les maîtres » : photo de fond, icône et son livrés avec l'application.
+// Un champ vide, ou un chemin commençant par « / », utilise ces fichiers ; un fichier envoyé depuis l'espace admin garde la priorité.
+const FDEF={bg:'/mci-bg.jpg',icon:'/mci-icon.jpg',audio:'/ahdoom.mp3'};
+const fdef=(f,k,empty)=>{const p=f&&f[k+'_path'];return !p?empty:(p.charAt(0)=='/'?FDEF[k]:fres(p))};
+const fico=f=>fdef(f,'icon',''),fbgu=f=>fdef(f,'bg',FDEF.bg),faud=f=>fdef(f,'audio',FDEF.audio);
+const figQ=id=>FG.q.filter(q=>q.fid==id).sort((a,b)=>(a.ord||0)-(b.ord||0));
+async function loadFig(){FG.tried=true;if(!SB)return;
+ try{const [f,q]=await Promise.all([SB.from('fig').select('*').order('ord'),SB.from('fig_q').select('*').order('ord')]);if(f.error||q.error)return;
+  FG.f=f.data||[];FG.q=q.data||[];try{localStorage.setItem(FKEY,JSON.stringify({f:FG.f,q:FG.q}))}catch(e){}
+  if(AUTHED&&!IS_ADM&&(V=='home'||V=='fig')&&!FO)render();else if(FO)figPaint()}catch(e){}}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState=='visible'&&AUTHED&&!IS_ADM&&SB&&!FO&&(V=='home'||V=='fig'))loadFig()});
+const figIcon=f=>`<button class="fi" onclick="openFig('${f.id}')" aria-label="${esc(f.name)}"><span class="fic" style="background-image:url('${esc(fico(f))}')"></span><span class="fin">${esc(f.name)}</span></button>`;
+function figHome(){return FG.f.length?`<h2>Ah Doom</h2><div class="figs">${FG.f.map(figIcon).join('')}</div>`:''}
+function vFig(){return `<h1>Ah Doom</h1>`+(FG.f.length?`<p class="mut">Touchez une icône pour lire leurs paroles.</p><div class="figs">${FG.f.map(figIcon).join('')}</div>`:empty('Rien pour le moment.','Les paroles seront bientôt disponibles.'))}
+const SVG_ON='<svg viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>',SVG_OFF='<svg viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m16 9 5 6"/><path d="m21 9-5 6"/></svg>',SVG_BACK='<svg viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></svg>';
+function figBody(id){const l=figQ(id);return `<div class="fin2">${l.length?l.map(q=>`<div class="fq">${q.tag?`<span class="ft">${esc(q.tag)}</span>`:''}<span class="fm">”</span><p>« ${esc(q.body)} »</p></div>`).join(''):'<div class="fe">Les paroles seront bientôt ajoutées.</div>'}</div>`}
+function figPaint(){const b=$('#fbody');if(b&&FO)b.innerHTML=figBody(FO)}
+function figSndUi(on){const b=$('#fsnd');if(!b)return;b.innerHTML=on?SVG_ON:SVG_OFF;b.classList.toggle('off',!on);b.setAttribute('aria-label',on?'Couper le son':'Activer le son')}
+function openFig(id){const f=FG.f.find(x=>x.id==id);if(!f||FO)return;FO=id;
+ let o=$('#figv');if(!o){o=document.createElement('div');o.id='figv';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');document.body.appendChild(o)}
+ o.hidden=false;
+ o.innerHTML=`<div class="fbg" style="background-image:url('${esc(fbgu(f))}')"></div><div class="fbar"><button class="fb" onclick="closeFig()" aria-label="Retour">${SVG_BACK}</button><h1>${esc(f.name)}</h1><button class="fb" id="fsnd" onclick="figSnd()" aria-label="Son">${SVG_OFF}</button></div><div class="fbody" id="fbody">${figBody(id)}</div>`;
+ document.body.style.overflow='hidden';
+ try{history.pushState({fig:id},'');FPOP=true}catch(e){FPOP=false}
+ figPlay(f);if(SB&&navigator.onLine)loadFig()}
+function figPlay(f){stopAud();const u=faud(f);if(!u){const b=$('#fsnd');if(b)b.hidden=true;return}
+ const a=new Audio();a.loop=true;a.preload='auto';a.src=u;FAUD=a;
+ a.addEventListener('playing',()=>{if(FAUD===a)figSndUi(true)});a.addEventListener('pause',()=>{if(FAUD===a)figSndUi(false)});
+ a.addEventListener('error',()=>{if(FAUD!==a)return;figSndUi(false);console.error('Son indisponible :',u,a.error);figMsg("Le son n'a pas pu être chargé. Vérifiez votre connexion.")});
+ const r=a.play();if(r&&r.catch)r.catch(e=>{if(FAUD!==a)return;figSndUi(false);if(e&&e.name=='NotAllowedError')figMsg('Touchez le haut-parleur pour lancer le son.')})}
+function figMsg(t){const o=$('#figv');if(!o||!FO)return;let m=o.querySelector('.fmsg');if(!m){m=document.createElement('div');m.className='fmsg';m.setAttribute('role','status');o.appendChild(m)}m.textContent=t;clearTimeout(figMsg.t);figMsg.t=setTimeout(()=>{if(m.parentNode)m.remove()},6000)}
+function stopAud(){const a=FAUD;FAUD=null;if(a){try{a.pause();a.removeAttribute('src');a.load()}catch(e){}}}
+function figSnd(){if(!FAUD)return;if(FAUD.paused){if(FAUD.error)FAUD.load();FAUD.play().catch(()=>figMsg("Le son n'a pas pu démarrer."))}else FAUD.pause()}
+function closeFig(fromPop){stopAud();FRES=false;const o=$('#figv');if(o){o.hidden=true;o.innerHTML=''}FO=null;document.body.style.overflow='';
+ if(FPOP){FPOP=false;if(fromPop!==true){try{history.back()}catch(e){}}}}
+addEventListener('popstate',()=>{if(FO){FPOP=false;closeFig(true)}});
+addEventListener('pagehide',()=>{if(FAUD)FAUD.pause()});
+document.addEventListener('visibilitychange',()=>{if(!FAUD)return;if(document.visibilityState=='hidden'){FRES=!FAUD.paused;FAUD.pause()}else if(FRES){FRES=false;FAUD.play().catch(()=>{})}});
+
+// ---------- ADMIN : paroles des maîtres
+let FA={loaded:false,f:[],q:[],err:''},CFS=null,CFE=null,CQE=null,CQB=false,FTAG='AH DOOM',FAUTO=false;
+const fqs=id=>FA.q.filter(q=>q.fid==id).sort((a,b)=>(a.ord||0)-(b.ord||0));
+async function loadFigAdm(){FA.loaded=true;
+ try{const [f,q]=await Promise.all([SB.from('fig').select('*').order('ord'),SB.from('fig_q').select('*').order('ord')]);if(f.error)throw f.error;if(q.error)throw q.error;FA.f=f.data;FA.q=q.data;FA.err='';FG.f=FA.f;FG.q=FA.q}
+ catch(e){FA.err=e.message||'Erreur de chargement'}
+ if(IS_ADM&&V=='cfig')$('#main').innerHTML=vCfig()}
+const ext=f=>((f.name.match(/\.(\w+)$/)||[])[1]||'bin').toLowerCase();
+function vCfig(){
+ if(!FA.loaded)return '<h1>Ah Doom</h1><p class="mut">Chargement…</p>';
+ if(FA.err)return `<h1>Ah Doom</h1><div class="note err">${esc(FA.err)}</div><p>Vérifiez que le script SQL « supabase-paroles.sql » a été exécuté dans Supabase.</p><button onclick="FA={loaded:false,f:[],q:[],err:''};render()">Réessayer</button>`;
+ if(!CFS&&!CFE&&!FAUTO&&FA.f.length==1){CFS=FA.f[0].id;FAUTO=true}
+ const f=CFS?FA.f.find(x=>x.id==CFS):null;if(CFS&&!f){CFS=null}
+ return f?vCfigOne(f):vCfigList()}
+function cfForm(){const n=CFE=='new',f=n?{}:(FA.f.find(x=>x.id==CFE)||{});
+ return `<div class="card"><h3>${n?'Ajouter un maître':'Modifier « '+esc(f.name)+' »'}</h3>
+ <label for="cfn">Nom affiché en haut de la page</label><input id="cfn" value="${esc(f.name)}" placeholder="Ex. MAME CHEIKH IBRA">
+ <label for="cfi">Icône du menu (image carrée) ${f.icon_path?'— laisser vide pour conserver':''}</label><input type="file" id="cfi" accept="image/*">
+ <label for="cfg">Image de fond de la page ${f.bg_path?'— laisser vide pour conserver':''}</label><input type="file" id="cfg" accept="image/*">
+ <label for="cfa">Son (démarre à l'ouverture, s'arrête à la sortie) ${f.audio_path?'— laisser vide pour conserver':''}</label><input type="file" id="cfa" accept="audio/*,.mp3,.m4a,.aac,.ogg,.wav">
+ ${f.audio_path?`<label class="ck"><input type="checkbox" id="cfr"> Revenir au son par défaut</label>`:''}
+ <div class="row" style="margin-top:.8rem"><button id="cfb" onclick="cfSave()">Enregistrer</button><button class="sec" onclick="CFE=null;render()">Annuler</button></div></div>`}
+function vCfigList(){
+ return `<h1>Ah Doom</h1><p class="mut">Chaque maître apparaît chez tous les utilisateurs sous forme d'icône. Touchez-le ici pour ajouter ses paroles.</p>
+ ${CFE?cfForm():`<div class="card"><button class="bigadd" onclick="CFE='new';render();scrollTo(0,0)">＋ Ajouter un maître</button></div>`}
+ ${FA.f.length?'<div class="cgrid">'+FA.f.map(f=>`<div class="card"><div class="fhd"><span class="fic" style="background-image:url('${esc(fico(f))}')"></span><div class="grow"><h3 style="margin:0">${esc(f.name)}</h3><span class="mut">${fqs(f.id).length} parole(s) · ${f.audio_path&&f.audio_path.charAt(0)!='/'?'son personnalisé ✓':'son par défaut ✓'}</span></div></div>
+ <div class="acts" style="margin-top:.7rem"><button class="sm" onclick="CFS='${f.id}';CFE=null;render();scrollTo(0,0)">Gérer les paroles</button><button class="sm sec" onclick="CFE='${f.id}';render();scrollTo(0,0)">Modifier</button><button class="sm bad" onclick="cfDel('${f.id}')">Suppr.</button></div></div>`).join('')+'</div>':(CFE?'':empty('Aucun maître.','Touchez « Ajouter un maître » pour commencer.'))}`}
+function cfQForm(f){const q=CQE?(FA.q.find(x=>x.id==CQE)||{}):{},tags=[...new Set([FTAG,...FA.q.map(x=>x.tag).filter(Boolean)])];
+ if(!CQE)return `<div class="card"><h3>Ajouter des Ah Doom</h3><div class="note">Collez votre texte ci-dessous, puis touchez « Ajouter ». Pour en ajouter plusieurs d'un coup, séparez chaque Ah Doom par <b>une ligne vide</b>. Les guillemets « » sont ajoutés automatiquement.</div>
+ <label for="cqt">Étiquette (qui parle)</label><input id="cqt" list="cqtl" value="${esc(FTAG)}"><datalist id="cqtl">${tags.map(t=>`<option value="${esc(t)}">`).join('')}</datalist>
+ <label for="cqx">Texte(s) à coller</label><textarea id="cqx" rows="10" placeholder="Collez ici votre Ah Doom…&#10;&#10;(ligne vide, puis le suivant…)"></textarea>
+ <div class="row" style="margin-top:.8rem"><button id="cqb" onclick="cqBulk('${f.id}')">Ajouter</button></div></div>`;
+ return `<div class="card"><h3>${CQE?'Modifier la parole':'Ajouter une parole'}</h3>
+ <label for="cqt">Étiquette (qui parle)</label><input id="cqt" list="cqtl" value="${esc(CQE?q.tag:FTAG)}" placeholder="AH DOOM"><datalist id="cqtl">${tags.map(t=>`<option value="${esc(t)}">`).join('')}</datalist>
+ <label for="cqx">Texte</label><textarea id="cqx" rows="6" placeholder="Écrivez la parole ici…">${esc(q.body)}</textarea>
+ <div class="row" style="margin-top:.8rem"><button id="cqb" onclick="cqSave('${f.id}')">${CQE?'Enregistrer':'Ajouter'}</button>${CQE?`<button class="sec" onclick="CQE=null;render()">Annuler</button>`:`<button class="sec" onclick="CQB=true;render()">Ajouter plusieurs d'un coup</button>`}</div></div>`}
+function vCfigOne(f){const l=fqs(f.id);
+ return `<div class="row sp"><button class="sm sec" onclick="FAUTO=true;CFS=null;CQE=null;CQB=false;render();scrollTo(0,0)">← Tous les maîtres</button><button class="sm sec" onclick="openFig('${f.id}')">👁 Voir comme l'utilisateur</button></div>
+ <div class="card" style="margin-top:.8rem"><div class="fhd"><span class="fic" style="background-image:url('${esc(fico(f))}')"></span><div class="grow"><h2 style="margin:0">${esc(f.name)}</h2><span class="mut">${l.length} parole(s) · ${f.audio_path&&f.audio_path.charAt(0)!='/'?'son personnalisé ✓':'son par défaut ✓'}</span></div></div></div>
+ ${cfQForm(f)}
+ <h2>Ah Doom ajoutés (${l.length})</h2>${l.length?l.map((q,i)=>`<div class="card"><div class="fqa"><div class="grow">${q.tag?`<span class="ftag">${esc(q.tag)}</span>`:''}<p>« ${esc(q.body)} »</p></div></div>
+ <div class="acts" style="margin-top:.7rem"><button class="sm sec" ${i?'':'disabled'} onclick="cqMove('${q.id}',-1)" aria-label="Monter">↑</button><button class="sm sec" ${i<l.length-1?'':'disabled'} onclick="cqMove('${q.id}',1)" aria-label="Descendre">↓</button><button class="sm sec" onclick="CQE='${q.id}';CQB=false;render();scrollTo(0,0)">Modifier</button><button class="sm bad" onclick="cqDel('${q.id}')">Suppr.</button></div></div>`).join(''):empty('Aucune parole.','Ajoutez la première ci-dessus : elle apparaît tout de suite chez les utilisateurs.')}`}
+async function cfSave(){const n=$('#cfn').value.trim();if(!n)return cnote('Saisissez le nom du maître.');cBusy('cfb',true);
+ const isNew=CFE=='new',id=isNew?uid():CFE,old=isNew?{}:(FA.f.find(x=>x.id==id)||{}),row={name:n},up=[],rm=[];
+ try{for(const [fld,inp,sub] of [['icon_path','cfi','icon'],['bg_path','cfg','bg'],['audio_path','cfa','audio']]){const fl=$('#'+inp).files[0];if(!fl)continue;
+   const path=`fig/${id}/${sub}_${Date.now()}.${ext(fl)}`;cnote(`Envoi de « ${fl.name} » (${(fl.size/1048576).toFixed(1).replace('.',',')} Mo)… ne quittez pas la page.`,true);await upF(path,fl);up.push(path);row[fld]=path;if(old[fld]&&!/^(\/|https?:)/.test(old[fld]))rm.push(old[fld])}
+  const rr=$('#cfr');if(rr&&rr.checked&&!row.audio_path){row.audio_path=null;if(old.audio_path&&!/^(\/|https?:)/.test(old.audio_path))rm.push(old.audio_path)}
+  if(isNew){row.id=id;row.ord=FA.f.length;const {error}=await SB.from('fig').insert(row);if(error)throw error}
+  else{const {error}=await SB.from('fig').update(row).eq('id',id);if(error)throw error}
+  if(rm.length)await SB.storage.from(BK).remove(rm);
+  CFE=null;if(isNew)CFS=id;await loadFigAdm();cnote(isNew?'Maître ajouté. Ajoutez maintenant ses paroles.':'Maître modifié.',true)}
+ catch(e){if(up.length)await SB.storage.from(BK).remove(up);cBusy('cfb',false);cnote(em(e))}}
+async function cfDel(id){const f=FA.f.find(x=>x.id==id);if(!f||!confirm('Supprimer « '+f.name+' » et toutes ses paroles pour tous les utilisateurs ?'))return;
+ const {error}=await SB.from('fig').delete().eq('id',id);if(error)return cnote(error.message);
+ const paths=[f.icon_path,f.bg_path,f.audio_path].filter(x=>x&&!/^(\/|https?:)/.test(x));if(paths.length)await SB.storage.from(BK).remove(paths);
+ if(CFS==id)CFS=null;await loadFigAdm();cnote('Maître supprimé.',true)}
+const cleanQ=t=>String(t||'').replace(/^[\s«"“”]+|[\s»"“”]+$/g,'').trim();
+async function cqSave(fid){const tag=$('#cqt').value.trim(),body=cleanQ($('#cqx').value);if(!body)return cnote('Écrivez le texte de la parole.');cBusy('cqb',true);
+ try{FTAG=tag||FTAG;
+  if(CQE){const {error}=await SB.from('fig_q').update({tag,body}).eq('id',CQE);if(error)throw error;CQE=null}
+  else{const mx=Math.max(-1,...fqs(fid).map(q=>q.ord||0));const {error}=await SB.from('fig_q').insert({id:uid(),fid,tag,body,ord:mx+1});if(error)throw error}
+  await loadFigAdm();cnote('Parole enregistrée : elle est visible chez les utilisateurs.',true)}
+ catch(e){cBusy('cqb',false);cnote(e.message||'Échec de l\'enregistrement.')}}
+async function cqBulk(fid){const tag=$('#cqt').value.trim(),parts=$('#cqx').value.split(/\n\s*\n/).map(cleanQ).filter(Boolean);if(!parts.length)return cnote('Collez au moins un texte.');cBusy('cqb',true);
+ try{FTAG=tag||FTAG;let mx=Math.max(-1,...fqs(fid).map(q=>q.ord||0));const rows=parts.map(body=>({id:uid(),fid,tag,body,ord:++mx}));
+  const {error}=await SB.from('fig_q').insert(rows);if(error)throw error;CQB=false;await loadFigAdm();cnote(rows.length+' parole(s) ajoutée(s).',true)}
+ catch(e){cBusy('cqb',false);cnote(e.message||'Échec de l\'enregistrement.')}}
+async function cqDel(id){if(!confirm('Supprimer cette parole ?'))return;const {error}=await SB.from('fig_q').delete().eq('id',id);if(error)return cnote(error.message);await loadFigAdm();cnote('Parole supprimée.',true)}
+async function cqMove(id,d){const q=FA.q.find(x=>x.id==id);if(!q)return;const l=fqs(q.fid),i=l.findIndex(x=>x.id==id),j=i+d;if(j<0||j>=l.length)return;
+ l.splice(j,0,l.splice(i,1)[0]);try{const rs=await Promise.all(l.map((x,n)=>x.ord===n?{}:SB.from('fig_q').update({ord:n}).eq('id',x.id)));const er=rs.find(r=>r&&r.error);if(er)throw er.error;await loadFigAdm()}catch(e){cnote(e.message||'Échec.')}}
 
 boot();
 if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));

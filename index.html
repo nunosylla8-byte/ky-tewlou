@@ -111,6 +111,7 @@ button.fi:active .fic{transform:scale(.96)}
 #figv .fq .fm{position:absolute;right:16px;top:6px;font:800 6.2rem/1 Georgia,serif;color:rgba(247,147,30,.32);pointer-events:none;user-select:none}
 #figv .ft{display:inline-block;background:#F7931E;color:#fff;font:700 .72rem Montserrat,sans-serif;letter-spacing:.08em;text-transform:uppercase;padding:.38rem .95rem;border-radius:99px;margin-bottom:14px}
 #figv .fq p{position:relative;margin:0;font:600 clamp(1.08rem,4.5vw,1.4rem)/1.55 Montserrat,"Source Sans 3",sans-serif;color:#fff;white-space:pre-line;overflow-wrap:anywhere}
+#figv .fmsg{position:absolute;z-index:3;left:50%;transform:translateX(-50%);top:calc(74px + env(safe-area-inset-top,0px));width:max-content;max-width:calc(100% - 32px);background:#F7931E;color:#fff;font:600 .85rem Montserrat,sans-serif;padding:.55rem .9rem;border-radius:12px;box-shadow:0 4px 14px #0008;text-align:center}
 #figv .fe{text-align:center;color:#ddd;padding:2rem 1rem;border:2px dashed #ffffff55;border-radius:18px;background:#0008}
 /* admin : paroles */
 .fqa{display:flex;gap:.6rem;align-items:flex-start}.fqa .grow{min-width:0}.fqa p{margin:.3rem 0 0;white-space:pre-line;overflow-wrap:anywhere}
@@ -143,8 +144,8 @@ const K=id=>S.k.find(x=>x.id==id),KN=id=>(K(id)||{name:'(supprimé)'}).name,A=id
 const sdone=id=>S.s.find(x=>x.sid==id),isDone=id=>(sdone(id)||{}).st=='done';
 const ytId=u=>{const m=String(u).match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([\w-]{11})/);return m&&m[1]};
 function flash(t){const f=$('#fm');if(f){f.innerHTML=t?`<div class="note err">${esc(t)}</div>`:'';if(t)scrollTo(0,0)}}
-const NAVS=[['home','Accueil','🏠','Accueil'],['lib','Bibliothèque','📚','Textes'],['airs','Gestion des airs','🎵','Airs'],['prog','Mes programmes','📅','Programmes'],['dah','Dahiras','👥','Dahiras'],['fig','Les maîtres','🕌','Maîtres']];
-function go(v,x){closePdf();closeFig();CFS=null;CFE=null;CQE=null;V=v;PD=x||null;PROP=null;SHOW=false;ED=null;AF=false;CAF=false;CAE=null;AE=null;if(v!='pform')D=null;render();scrollTo(0,0)}
+const NAVS=[['home','Accueil','🏠','Accueil'],['lib','Bibliothèque','📚','Textes'],['airs','Gestion des airs','🎵','Airs'],['prog','Mes programmes','📅','Programmes'],['dah','Dahiras','👥','Dahiras'],['fig','Ah Doom','🕌','Ah Doom']];
+function go(v,x){closePdf();closeFig();FAUTO=false;CFS=null;CFE=null;CQE=null;V=v;PD=x||null;PROP=null;SHOW=false;ED=null;AF=false;CAF=false;CAE=null;AE=null;if(v!='pform')D=null;render();scrollTo(0,0)}
 let GLOGO="";try{GLOGO=localStorage.getItem("kyt-logo")||""}catch(e){}
 const logoImg=c=>`<img src="${GLOGO||TOUBA}" alt="Minaret de la mosquée de Touba" class="${c||'logo'}">`;
 function render(){
@@ -369,7 +370,7 @@ async function loadLogo(){try{const {data}=await SB.from('app_settings').select(
 const CFG={url:'https://alpcjvxzvtiygzlobvan.supabase.co',key:'sb_publishable_Ob0KRXAb9mno0hoBKqJIlQ_2F_ktcvO'};
 const CONF=!/COLLE_ICI/.test(CFG.url+CFG.key)&&!!window.supabase;
 const GUEST=()=>{try{return localStorage.getItem('kyt-guest')=='1'}catch(e){return false}};
-const ANAVS=[['adm','Tableau de bord','📊','Tableau'],['usr','Utilisateurs','👥','Utilisateurs'],['cat','Khassaïdes','📖','Khassaïdes'],['cair','Airs','🎵','Airs'],['cfig','Paroles des maîtres','💬','Paroles'],['set','Réglages','⚙️','Réglages']];
+const ANAVS=[['adm','Tableau de bord','📊','Tableau'],['usr','Utilisateurs','👥','Utilisateurs'],['cat','Khassaïdes','📖','Khassaïdes'],['cair','Airs','🎵','Airs'],['cfig','Ah Doom','💬','Ah Doom'],['set','Réglages','⚙️','Réglages']];
 const ADMIN_PATH=/^\/administrateur\/?$/i.test(location.pathname);
 let AUTHED=false,IS_ADM=false,SB=null,ATAB=ADMIN_PATH?'admin':'user',AMODE='in',MF=null,ADM={loaded:false},UQ='',APER='jour';
 const amsg=(t,ok)=>{const e=$('#am');if(e){e.className='note'+(ok?'':' err');e.textContent=t;e.hidden=!t}};
@@ -643,15 +644,20 @@ const FKEY='kyt-fig';
 let FG={tried:false,f:[],q:[]},FO=null,FAUD=null,FPOP=false,FRES=false;
 try{const j=JSON.parse(localStorage.getItem(FKEY)||'null');if(j&&j.f){FG.f=j.f;FG.q=j.q||[]}}catch(e){}
 function fres(p){if(!p)return '';if(/^(\/|https?:|data:)/.test(p))return p;try{return pubUrl(p)}catch(e){return ''}}
+// Valeurs par défaut de la partie « Les maîtres » : photo de fond, icône et son livrés avec l'application.
+// Un champ vide, ou un chemin commençant par « / », utilise ces fichiers ; un fichier envoyé depuis l'espace admin garde la priorité.
+const FDEF={bg:'/mci-bg.jpg',icon:'/mci-icon.jpg',audio:'/ahdoom.mp3'};
+const fdef=(f,k,empty)=>{const p=f&&f[k+'_path'];return !p?empty:(p.charAt(0)=='/'?FDEF[k]:fres(p))};
+const fico=f=>fdef(f,'icon',''),fbgu=f=>fdef(f,'bg',FDEF.bg),faud=f=>fdef(f,'audio',FDEF.audio);
 const figQ=id=>FG.q.filter(q=>q.fid==id).sort((a,b)=>(a.ord||0)-(b.ord||0));
 async function loadFig(){FG.tried=true;if(!SB)return;
  try{const [f,q]=await Promise.all([SB.from('fig').select('*').order('ord'),SB.from('fig_q').select('*').order('ord')]);if(f.error||q.error)return;
   FG.f=f.data||[];FG.q=q.data||[];try{localStorage.setItem(FKEY,JSON.stringify({f:FG.f,q:FG.q}))}catch(e){}
   if(AUTHED&&!IS_ADM&&(V=='home'||V=='fig')&&!FO)render();else if(FO)figPaint()}catch(e){}}
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState=='visible'&&AUTHED&&!IS_ADM&&SB&&!FO&&(V=='home'||V=='fig'))loadFig()});
-const figIcon=f=>`<button class="fi" onclick="openFig('${f.id}')" aria-label="${esc(f.name)}"><span class="fic" style="background-image:url('${esc(fres(f.icon_path))}')"></span><span class="fin">${esc(f.name)}</span></button>`;
-function figHome(){return FG.f.length?`<h2>Les maîtres</h2><div class="figs">${FG.f.map(figIcon).join('')}</div>`:''}
-function vFig(){return `<h1>Les maîtres</h1>`+(FG.f.length?`<p class="mut">Touchez une icône pour lire leurs paroles.</p><div class="figs">${FG.f.map(figIcon).join('')}</div>`:empty('Aucun maître pour le moment.','Les paroles seront bientôt disponibles.'))}
+const figIcon=f=>`<button class="fi" onclick="openFig('${f.id}')" aria-label="${esc(f.name)}"><span class="fic" style="background-image:url('${esc(fico(f))}')"></span><span class="fin">${esc(f.name)}</span></button>`;
+function figHome(){return FG.f.length?`<h2>Ah Doom</h2><div class="figs">${FG.f.map(figIcon).join('')}</div>`:''}
+function vFig(){return `<h1>Ah Doom</h1>`+(FG.f.length?`<p class="mut">Touchez une icône pour lire leurs paroles.</p><div class="figs">${FG.f.map(figIcon).join('')}</div>`:empty('Rien pour le moment.','Les paroles seront bientôt disponibles.'))}
 const SVG_ON='<svg viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>',SVG_OFF='<svg viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m16 9 5 6"/><path d="m21 9-5 6"/></svg>',SVG_BACK='<svg viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></svg>';
 function figBody(id){const l=figQ(id);return `<div class="fin2">${l.length?l.map(q=>`<div class="fq">${q.tag?`<span class="ft">${esc(q.tag)}</span>`:''}<span class="fm">”</span><p>« ${esc(q.body)} »</p></div>`).join(''):'<div class="fe">Les paroles seront bientôt ajoutées.</div>'}</div>`}
 function figPaint(){const b=$('#fbody');if(b&&FO)b.innerHTML=figBody(FO)}
@@ -659,16 +665,18 @@ function figSndUi(on){const b=$('#fsnd');if(!b)return;b.innerHTML=on?SVG_ON:SVG_
 function openFig(id){const f=FG.f.find(x=>x.id==id);if(!f||FO)return;FO=id;
  let o=$('#figv');if(!o){o=document.createElement('div');o.id='figv';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');document.body.appendChild(o)}
  o.hidden=false;
- o.innerHTML=`<div class="fbg" style="background-image:url('${esc(fres(f.bg_path)||'/mci-bg.jpg')}')"></div><div class="fbar"><button class="fb" onclick="closeFig()" aria-label="Retour">${SVG_BACK}</button><h1>${esc(f.name)}</h1><button class="fb" id="fsnd" onclick="figSnd()" aria-label="Son">${SVG_OFF}</button></div><div class="fbody" id="fbody">${figBody(id)}</div>`;
+ o.innerHTML=`<div class="fbg" style="background-image:url('${esc(fbgu(f))}')"></div><div class="fbar"><button class="fb" onclick="closeFig()" aria-label="Retour">${SVG_BACK}</button><h1>${esc(f.name)}</h1><button class="fb" id="fsnd" onclick="figSnd()" aria-label="Son">${SVG_OFF}</button></div><div class="fbody" id="fbody">${figBody(id)}</div>`;
  document.body.style.overflow='hidden';
  try{history.pushState({fig:id},'');FPOP=true}catch(e){FPOP=false}
- figPlay(f)}
-function figPlay(f){stopAud();const u=fres(f.audio_path);if(!u){const b=$('#fsnd');if(b)b.hidden=true;return}
+ figPlay(f);if(SB&&navigator.onLine)loadFig()}
+function figPlay(f){stopAud();const u=faud(f);if(!u){const b=$('#fsnd');if(b)b.hidden=true;return}
  const a=new Audio();a.loop=true;a.preload='auto';a.src=u;FAUD=a;
  a.addEventListener('playing',()=>{if(FAUD===a)figSndUi(true)});a.addEventListener('pause',()=>{if(FAUD===a)figSndUi(false)});
- const r=a.play();if(r&&r.catch)r.catch(()=>figSndUi(false))}
+ a.addEventListener('error',()=>{if(FAUD!==a)return;figSndUi(false);console.error('Son indisponible :',u,a.error);figMsg("Le son n'a pas pu être chargé. Vérifiez votre connexion.")});
+ const r=a.play();if(r&&r.catch)r.catch(e=>{if(FAUD!==a)return;figSndUi(false);if(e&&e.name=='NotAllowedError')figMsg('Touchez le haut-parleur pour lancer le son.')})}
+function figMsg(t){const o=$('#figv');if(!o||!FO)return;let m=o.querySelector('.fmsg');if(!m){m=document.createElement('div');m.className='fmsg';m.setAttribute('role','status');o.appendChild(m)}m.textContent=t;clearTimeout(figMsg.t);figMsg.t=setTimeout(()=>{if(m.parentNode)m.remove()},6000)}
 function stopAud(){const a=FAUD;FAUD=null;if(a){try{a.pause();a.removeAttribute('src');a.load()}catch(e){}}}
-function figSnd(){if(!FAUD)return;if(FAUD.paused)FAUD.play().catch(()=>{});else FAUD.pause()}
+function figSnd(){if(!FAUD)return;if(FAUD.paused){if(FAUD.error)FAUD.load();FAUD.play().catch(()=>figMsg("Le son n'a pas pu démarrer."))}else FAUD.pause()}
 function closeFig(fromPop){stopAud();FRES=false;const o=$('#figv');if(o){o.hidden=true;o.innerHTML=''}FO=null;document.body.style.overflow='';
  if(FPOP){FPOP=false;if(fromPop!==true){try{history.back()}catch(e){}}}}
 addEventListener('popstate',()=>{if(FO){FPOP=false;closeFig(true)}});
@@ -676,7 +684,7 @@ addEventListener('pagehide',()=>{if(FAUD)FAUD.pause()});
 document.addEventListener('visibilitychange',()=>{if(!FAUD)return;if(document.visibilityState=='hidden'){FRES=!FAUD.paused;FAUD.pause()}else if(FRES){FRES=false;FAUD.play().catch(()=>{})}});
 
 // ---------- ADMIN : paroles des maîtres
-let FA={loaded:false,f:[],q:[],err:''},CFS=null,CFE=null,CQE=null,CQB=false,FTAG='AH DOOM';
+let FA={loaded:false,f:[],q:[],err:''},CFS=null,CFE=null,CQE=null,CQB=false,FTAG='AH DOOM',FAUTO=false;
 const fqs=id=>FA.q.filter(q=>q.fid==id).sort((a,b)=>(a.ord||0)-(b.ord||0));
 async function loadFigAdm(){FA.loaded=true;
  try{const [f,q]=await Promise.all([SB.from('fig').select('*').order('ord'),SB.from('fig_q').select('*').order('ord')]);if(f.error)throw f.error;if(q.error)throw q.error;FA.f=f.data;FA.q=q.data;FA.err='';FG.f=FA.f;FG.q=FA.q}
@@ -684,8 +692,9 @@ async function loadFigAdm(){FA.loaded=true;
  if(IS_ADM&&V=='cfig')$('#main').innerHTML=vCfig()}
 const ext=f=>((f.name.match(/\.(\w+)$/)||[])[1]||'bin').toLowerCase();
 function vCfig(){
- if(!FA.loaded)return '<h1>Paroles des maîtres</h1><p class="mut">Chargement…</p>';
- if(FA.err)return `<h1>Paroles des maîtres</h1><div class="note err">${esc(FA.err)}</div><p>Vérifiez que le script SQL « supabase-paroles.sql » a été exécuté dans Supabase.</p><button onclick="FA={loaded:false,f:[],q:[],err:''};render()">Réessayer</button>`;
+ if(!FA.loaded)return '<h1>Ah Doom</h1><p class="mut">Chargement…</p>';
+ if(FA.err)return `<h1>Ah Doom</h1><div class="note err">${esc(FA.err)}</div><p>Vérifiez que le script SQL « supabase-paroles.sql » a été exécuté dans Supabase.</p><button onclick="FA={loaded:false,f:[],q:[],err:''};render()">Réessayer</button>`;
+ if(!CFS&&!CFE&&!FAUTO&&FA.f.length==1){CFS=FA.f[0].id;FAUTO=true}
  const f=CFS?FA.f.find(x=>x.id==CFS):null;if(CFS&&!f){CFS=null}
  return f?vCfigOne(f):vCfigList()}
 function cfForm(){const n=CFE=='new',f=n?{}:(FA.f.find(x=>x.id==CFE)||{});
@@ -694,27 +703,27 @@ function cfForm(){const n=CFE=='new',f=n?{}:(FA.f.find(x=>x.id==CFE)||{});
  <label for="cfi">Icône du menu (image carrée) ${f.icon_path?'— laisser vide pour conserver':''}</label><input type="file" id="cfi" accept="image/*">
  <label for="cfg">Image de fond de la page ${f.bg_path?'— laisser vide pour conserver':''}</label><input type="file" id="cfg" accept="image/*">
  <label for="cfa">Son (démarre à l'ouverture, s'arrête à la sortie) ${f.audio_path?'— laisser vide pour conserver':''}</label><input type="file" id="cfa" accept="audio/*,.mp3,.m4a,.aac,.ogg,.wav">
- ${f.audio_path?`<label class="ck"><input type="checkbox" id="cfr"> Retirer le son actuel</label>`:''}
+ ${f.audio_path?`<label class="ck"><input type="checkbox" id="cfr"> Revenir au son par défaut</label>`:''}
  <div class="row" style="margin-top:.8rem"><button id="cfb" onclick="cfSave()">Enregistrer</button><button class="sec" onclick="CFE=null;render()">Annuler</button></div></div>`}
 function vCfigList(){
- return `<h1>Paroles des maîtres</h1><p class="mut">Chaque maître apparaît chez tous les utilisateurs sous forme d'icône. Touchez-le ici pour ajouter ses paroles.</p>
+ return `<h1>Ah Doom</h1><p class="mut">Chaque maître apparaît chez tous les utilisateurs sous forme d'icône. Touchez-le ici pour ajouter ses paroles.</p>
  ${CFE?cfForm():`<div class="card"><button class="bigadd" onclick="CFE='new';render();scrollTo(0,0)">＋ Ajouter un maître</button></div>`}
- ${FA.f.length?'<div class="cgrid">'+FA.f.map(f=>`<div class="card"><div class="fhd"><span class="fic" style="background-image:url('${esc(fres(f.icon_path))}')"></span><div class="grow"><h3 style="margin:0">${esc(f.name)}</h3><span class="mut">${fqs(f.id).length} parole(s) · ${f.audio_path?'son ✓':'sans son'}</span></div></div>
+ ${FA.f.length?'<div class="cgrid">'+FA.f.map(f=>`<div class="card"><div class="fhd"><span class="fic" style="background-image:url('${esc(fico(f))}')"></span><div class="grow"><h3 style="margin:0">${esc(f.name)}</h3><span class="mut">${fqs(f.id).length} parole(s) · ${f.audio_path&&f.audio_path.charAt(0)!='/'?'son personnalisé ✓':'son par défaut ✓'}</span></div></div>
  <div class="acts" style="margin-top:.7rem"><button class="sm" onclick="CFS='${f.id}';CFE=null;render();scrollTo(0,0)">Gérer les paroles</button><button class="sm sec" onclick="CFE='${f.id}';render();scrollTo(0,0)">Modifier</button><button class="sm bad" onclick="cfDel('${f.id}')">Suppr.</button></div></div>`).join('')+'</div>':(CFE?'':empty('Aucun maître.','Touchez « Ajouter un maître » pour commencer.'))}`}
 function cfQForm(f){const q=CQE?(FA.q.find(x=>x.id==CQE)||{}):{},tags=[...new Set([FTAG,...FA.q.map(x=>x.tag).filter(Boolean)])];
- if(CQB&&!CQE)return `<div class="card"><h3>Ajouter plusieurs paroles d'un coup</h3><div class="note">Collez tous vos textes : séparez chaque parole par <b>une ligne vide</b>. Les guillemets « » sont ajoutés automatiquement.</div>
+ if(!CQE)return `<div class="card"><h3>Ajouter des Ah Doom</h3><div class="note">Collez votre texte ci-dessous, puis touchez « Ajouter ». Pour en ajouter plusieurs d'un coup, séparez chaque Ah Doom par <b>une ligne vide</b>. Les guillemets « » sont ajoutés automatiquement.</div>
  <label for="cqt">Étiquette (qui parle)</label><input id="cqt" list="cqtl" value="${esc(FTAG)}"><datalist id="cqtl">${tags.map(t=>`<option value="${esc(t)}">`).join('')}</datalist>
- <label for="cqx">Textes</label><textarea id="cqx" rows="10" placeholder="Première parole…&#10;&#10;Deuxième parole…"></textarea>
- <div class="row" style="margin-top:.8rem"><button id="cqb" onclick="cqBulk('${f.id}')">Enregistrer tout</button><button class="sec" onclick="CQB=false;render()">Retour</button></div></div>`;
+ <label for="cqx">Texte(s) à coller</label><textarea id="cqx" rows="10" placeholder="Collez ici votre Ah Doom…&#10;&#10;(ligne vide, puis le suivant…)"></textarea>
+ <div class="row" style="margin-top:.8rem"><button id="cqb" onclick="cqBulk('${f.id}')">Ajouter</button></div></div>`;
  return `<div class="card"><h3>${CQE?'Modifier la parole':'Ajouter une parole'}</h3>
  <label for="cqt">Étiquette (qui parle)</label><input id="cqt" list="cqtl" value="${esc(CQE?q.tag:FTAG)}" placeholder="AH DOOM"><datalist id="cqtl">${tags.map(t=>`<option value="${esc(t)}">`).join('')}</datalist>
  <label for="cqx">Texte</label><textarea id="cqx" rows="6" placeholder="Écrivez la parole ici…">${esc(q.body)}</textarea>
  <div class="row" style="margin-top:.8rem"><button id="cqb" onclick="cqSave('${f.id}')">${CQE?'Enregistrer':'Ajouter'}</button>${CQE?`<button class="sec" onclick="CQE=null;render()">Annuler</button>`:`<button class="sec" onclick="CQB=true;render()">Ajouter plusieurs d'un coup</button>`}</div></div>`}
 function vCfigOne(f){const l=fqs(f.id);
- return `<div class="row sp"><button class="sm sec" onclick="CFS=null;CQE=null;CQB=false;render();scrollTo(0,0)">← Tous les maîtres</button><button class="sm sec" onclick="openFig('${f.id}')">👁 Voir comme l'utilisateur</button></div>
- <div class="card" style="margin-top:.8rem"><div class="fhd"><span class="fic" style="background-image:url('${esc(fres(f.icon_path))}')"></span><div class="grow"><h2 style="margin:0">${esc(f.name)}</h2><span class="mut">${l.length} parole(s) · ${f.audio_path?'son ✓':'sans son'}</span></div></div></div>
+ return `<div class="row sp"><button class="sm sec" onclick="FAUTO=true;CFS=null;CQE=null;CQB=false;render();scrollTo(0,0)">← Tous les maîtres</button><button class="sm sec" onclick="openFig('${f.id}')">👁 Voir comme l'utilisateur</button></div>
+ <div class="card" style="margin-top:.8rem"><div class="fhd"><span class="fic" style="background-image:url('${esc(fico(f))}')"></span><div class="grow"><h2 style="margin:0">${esc(f.name)}</h2><span class="mut">${l.length} parole(s) · ${f.audio_path&&f.audio_path.charAt(0)!='/'?'son personnalisé ✓':'son par défaut ✓'}</span></div></div></div>
  ${cfQForm(f)}
- <h2>Paroles (${l.length})</h2>${l.length?l.map((q,i)=>`<div class="card"><div class="fqa"><div class="grow">${q.tag?`<span class="ftag">${esc(q.tag)}</span>`:''}<p>« ${esc(q.body)} »</p></div></div>
+ <h2>Ah Doom ajoutés (${l.length})</h2>${l.length?l.map((q,i)=>`<div class="card"><div class="fqa"><div class="grow">${q.tag?`<span class="ftag">${esc(q.tag)}</span>`:''}<p>« ${esc(q.body)} »</p></div></div>
  <div class="acts" style="margin-top:.7rem"><button class="sm sec" ${i?'':'disabled'} onclick="cqMove('${q.id}',-1)" aria-label="Monter">↑</button><button class="sm sec" ${i<l.length-1?'':'disabled'} onclick="cqMove('${q.id}',1)" aria-label="Descendre">↓</button><button class="sm sec" onclick="CQE='${q.id}';CQB=false;render();scrollTo(0,0)">Modifier</button><button class="sm bad" onclick="cqDel('${q.id}')">Suppr.</button></div></div>`).join(''):empty('Aucune parole.','Ajoutez la première ci-dessus : elle apparaît tout de suite chez les utilisateurs.')}`}
 async function cfSave(){const n=$('#cfn').value.trim();if(!n)return cnote('Saisissez le nom du maître.');cBusy('cfb',true);
  const isNew=CFE=='new',id=isNew?uid():CFE,old=isNew?{}:(FA.f.find(x=>x.id==id)||{}),row={name:n},up=[],rm=[];
