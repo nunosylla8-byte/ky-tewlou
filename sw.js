@@ -1,5 +1,5 @@
-const C='kyt-v4',SH='kyt-share';
-const SHELL=['/','/manifest.webmanifest','/icon-192.png','/icon-512.png','https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js','https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Source+Sans+3:wght@400;600;700&display=swap'];
+const C='kyt-v6',SH='kyt-share';
+const SHELL=['/','/manifest.webmanifest','/icon-192.png','/icon-512.png','/air-default.jpg','/mci-icon.jpg','/mci-bg.jpg','https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js','https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Source+Sans+3:wght@400;600;700&family=Montserrat:wght@500;600;700;800&display=swap'];
 // Installation tolérante : un fichier manquant n'empêche plus l'installation
 self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>Promise.all(SHELL.map(u=>fetch(new Request(u,{mode:u[0]=='/'?'same-origin':'no-cors'})).then(x=>c.put(u,x)).catch(()=>{})))).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!=C&&x!=SH).map(x=>caches.delete(x)))).then(()=>clients.claim()))});
